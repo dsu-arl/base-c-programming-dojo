@@ -1,7 +1,7 @@
 ---
 name: New Challenge
 about: Used when creating a new challenge for a module
-title: "[<MODULE NAME>] <Challenge Name>"
+title: "[MODULE NAME] Challenge Name"
 labels: new challenge
 assignees: ''
 
