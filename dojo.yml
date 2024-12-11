@@ -1,0 +1,16 @@
+id: csc-150
+name: CSC 150
+type: ''
+modules:
+- id: hello-world
+  name: Hello World
+- id: variables
+  name: Variables
+- id: conditionals
+  name: Conditionals
+- id: loops
+  name: Loops
+- id: arrays
+  name: Arrays
+- id: functions
+  name: Functions
