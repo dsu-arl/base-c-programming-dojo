@@ -7,6 +7,7 @@ Reviewer Checklist:
 - [ ] Mark yourself as the reviewer
 - [ ] Verify the branch in the pull request is being merged into the correct branch (`dev` for `feature` branches, `main` for `release` branches)
 - [ ] Test the challenge in the [staging environment](http://pwncollege-staging.arl.madren.org/)
+- [ ] Select `feature` branch you're testing from dropdown in `Admin` page of dojo and click `Update` so that you're testing the correct branch
 - [ ] Start a review and add comments of anything that needs to be changed or fixed
 - [ ] `Approve` or `Request changes` when submitting the pull request review. If marking `Request changes`, add a comment summarizing why.
 - [ ] If approving the pull request:
