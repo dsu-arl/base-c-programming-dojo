@@ -1,6 +1,5 @@
 id: csc-150
 name: CSC 150
-type: ''
 modules:
 - id: hello-world
   name: Hello World
