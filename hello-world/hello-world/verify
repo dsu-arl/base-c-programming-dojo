@@ -1,0 +1,65 @@
+#!/opt/pwn.college/python
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.parser import *
+
+
+# Make sure it contains the line printf("Hello World!\\n");
+def check_file_contents(function_contents):
+    expected_line = 'printf("Hello World!\\n");'
+
+    if expected_line not in function_contents:
+        return False, '`printf()` not called or incorrect string to print'
+
+    return True, ''
+
+
+# Make sure the output is "Hello World!\n"
+def check_output(filepath):
+    file_output = run_program(filepath)
+
+    if file_output != 'Hello World!\n':
+        return False, "Program output doesn't match expected output"
+
+    return True, ''
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
+
+    red_text_code = '\033[31m'
+    green_text_code = '\033[32m'
+    reset_code = '\033[0m'
+
+    filepath = sys.argv[1]
+
+    # Checks if the given program compiles and if the main function is written correctly
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = get_file_contents(filepath)
+
+    main_func = format_func_declar('int main()')
+    main_func_contents = get_function_contents(file_contents, main_func)
+
+    checks = [check_file_contents(main_func_contents), check_output(filepath)]
+    for check in checks:
+        passed, error_msg = check
+        if not passed:
+            print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
+            sys.exit(1)
+    
+    print(f'{green_text_code}Correct{reset_code}')
+    print('Congratulations! You have passed this challenge! Here is your flag:')
+    print_flag()

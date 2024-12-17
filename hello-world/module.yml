@@ -1,1 +1,5 @@
 name: Hello World
+challenges:
+- id: hello-world
+  name: Hello World
+  allow_privileged: false
