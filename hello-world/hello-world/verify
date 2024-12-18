@@ -13,7 +13,7 @@ def print_flag():
 from paceCParser.parser import *
 
 
-def check_imports(file_contents):
+def check_libraries(file_contents):
     if file_contents.split('\n')[0] != '#include <stdio.h>':
         return False, "Missing 'stdio.h' library"
     
@@ -49,7 +49,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     file_contents = get_file_contents(filepath)
-    passed, error_msg = check_imports(file_contents)
+    passed, error_msg = check_libraries(file_contents)
     if not passed:
         print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
         sys.exit(1)
