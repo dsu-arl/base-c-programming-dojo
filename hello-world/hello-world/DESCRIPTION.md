@@ -35,7 +35,7 @@ printf("Welcome to the CSC-150 Dojo!\n");
 printf("Let's get started!\n");
 ```
 This would output:
-```commandline
+```text
 Welcome to the CSC-150 Dojo!
 Let's get started!
 ```
@@ -46,7 +46,7 @@ printf("Welcome to the CSC-150 Dojo!");  // Prints on the same line
 printf("Let's get started!");  // Also prints on the same line
 ```
 Which would output:
-```commandline
+```text
 Welcome to the CSC-150 Dojo!Let's get started!
 ```
 You can use `\n` as many times as you need to control the formatting of your output and create more readable, user-friendly text on the screen.
