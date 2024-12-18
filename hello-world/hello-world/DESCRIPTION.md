@@ -6,7 +6,7 @@ The first part of a C program typically involves including libraries. Libraries 
 The line above imports the `stdio.h` (Standard Input/Output) library, which contains functions for input and output operations, such as `printf` (used for printing to the screen) and `scanf` (used for reading user input). Without including this line, we wouldn’t be able to use these functions in our program.
 
 ### The `main` Function
-In C, every program must have a `main` function. This function marks the **starting point of execution**. When the program runs, it starts executing the code from here. C programs always run from top to bottom, meaning that each line of code happens one at a time, from start to end. main is always the starting place, return 0; the stopping place.
+In C, every program must have a `main` function. This function marks the **starting point of execution**. When the program runs, it starts executing the code from here. C programs always run from top to bottom, meaning that each line of code happens one at a time, from start to end. `main` is always the starting place, `return 0;` the stopping place.
 ```C
 int main() {
     return 0;
