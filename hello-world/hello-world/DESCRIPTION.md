@@ -60,5 +60,5 @@ You might have noticed that some lines end with a semicolon (`;`). In C, semicol
 Follow these steps to complete this challenge!
 1. Create a C file and name it whatever you want (just make sure it ends with `.c`).
 2. Inside your C file, include the `stdio.h` library and create `main` function. Don't forget `return 0;` at the end of `main`!
-3. Use the `printf` function inside `main` to print the text `Hello World!` to the screen.
+3. Use the `printf` function inside `main` to print the text `Hello World!` to the screen (make sure to include a newline at the end!).
 4. To get the flag, run `verify <your_file>.c` (replacing `<your_file>` with the name of your C file) after completing the steps above to verify your solution.
