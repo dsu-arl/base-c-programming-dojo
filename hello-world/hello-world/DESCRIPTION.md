@@ -32,22 +32,22 @@ In C, you can use the **escape sequence** `\n` within a string to represent a ne
 For example, if you want to print text on multiple lines, you can use `\n` like this:
 ```C
 printf("Welcome to the CSC-150 Dojo!\n");
-printf("Let's get started!\n");
+printf("We are going to learn C!\n");
 ```
 This would output:
 ```text
 Welcome to the CSC-150 Dojo!
-Let's get started!
+We are going to learn C!
 ```
 - `\n` is a special character in C known as an escape sequence. It tells the program to move the output cursor to the next line, just like hitting the **Enter** or **Return** key on your keyboard.
 - Without the `\n`, the printed text will stay on the same line. If you omit it, you'll get something like this:
 ```C
 printf("Welcome to the CSC-150 Dojo!");  // Prints on the same line
-printf("Let's get started!");  // Also prints on the same line
+printf("We are going to learn C!");  // Also prints on the same line
 ```
 Which would output:
 ```text
-Welcome to the CSC-150 Dojo!Let's get started!
+Welcome to the CSC-150 Dojo!We are going to learn C!
 ```
 You can use `\n` as many times as you need to control the formatting of your output and create more readable, user-friendly text on the screen.
 
