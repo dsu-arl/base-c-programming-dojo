@@ -13,22 +13,22 @@ def print_flag():
 from paceCParser.parser import *
 
 
-# Make sure it contains the line printf("Hello World!\\n");
-def check_file_contents(function_contents):
-    expected_line = 'printf("Hello World!\\n");'
-
-    if expected_line not in function_contents:
-        return False, '`printf()` not called or incorrect string to print'
-
+def check_imports(file_contents):
+    if file_contents.split('\n')[0] != '#include <stdio.h>':
+        return False, "Missing 'stdio.h' library"
+    
     return True, ''
 
 
-# Make sure the output is "Hello World!\n"
-def check_output(filepath):
-    file_output = run_program(filepath)
+def check_file_contents(function_contents):
+    # Make sure it contains the line printf("Hello World!\\n");
+    expected_line = 'printf("Hello World!\\n");'
+    if expected_line not in function_contents:
+        return False, '`printf()` not called or incorrect string to print'
 
-    if file_output != 'Hello World!\n':
-        return False, "Program output doesn't match expected output"
+    # Make sure file only has printf() statement and return statement
+    if function_contents != ['printf("Hello World!\\n");', 'return 0;']:
+        return False, 'File should only contain `printf()` statement and `return` statement'
 
     return True, ''
 
@@ -49,17 +49,19 @@ if __name__ == '__main__':
         sys.exit(1)
 
     file_contents = get_file_contents(filepath)
+    passed, error_msg = check_imports(file_contents)
+    if not passed:
+        print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
+        sys.exit(1)
 
     main_func = format_func_declar('int main()')
     main_func_contents = get_function_contents(file_contents, main_func)
 
-    checks = [check_file_contents(main_func_contents), check_output(filepath)]
-    for check in checks:
-        passed, error_msg = check
-        if not passed:
-            print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
-            sys.exit(1)
-    
+    passed, error_msg = check_file_contents(main_func_contents)
+    if not passed:
+        print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
+        sys.exit(1)
+
     print(f'{green_text_code}Correct{reset_code}')
     print('Congratulations! You have passed this challenge! Here is your flag:')
     print_flag()
