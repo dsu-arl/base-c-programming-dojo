@@ -51,7 +51,7 @@ if __name__ == '__main__':
         print(f"{red_text_code}Incorrect{reset_code}: '{executable_file}' file doesn't exist")
         sys.exit(1)
 
-    # run a.out and make sure the output is Hello World! with newline at end
+    # run executable and make sure the output is Hello World! with newline at end
     passed, output = run_program(executable_file)
 
     if not passed:
