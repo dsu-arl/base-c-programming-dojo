@@ -3,3 +3,6 @@ challenges:
 - id: hello-world
   name: Hello World
   allow_privileged: false
+- id: running-c-programs
+  name: Running C Programs
+  allow_privileged: false
