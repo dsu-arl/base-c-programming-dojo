@@ -14,4 +14,4 @@ Hello World!
 Goodbye World!
 ```
 3. To test your program, compile and run it to see the output.
-4. To get the flag, run `verify <your_file>.c` (replacing <your_file> with the name of your C file) to validate your solution. 
+4. To get the flag, run `verify <your_file>.c` (replacing `<your_file>` with the name of your C file) to validate your solution. 
