@@ -6,3 +6,6 @@ challenges:
 - id: output-files
   name: Output Files
   allow_privileged: false
+- id: knowledge-check
+  name: Knowledge Check
+  allow_privileged: false
