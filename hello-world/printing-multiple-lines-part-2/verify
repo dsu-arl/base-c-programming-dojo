@@ -3,10 +3,68 @@ import sys
 sys.path.append('/challenge')
 
 def print_flag():
-	try:
-		with open("/flag", "r") as f:
-			print(f.read())
-	except FileNotFoundError:
-		print("Error: Flag file not found.")
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
 
 # Add your imports and other code below here
+from paceCParser.parser import *
+
+def check_libraries(file_contents):
+    if file_contents.split('\n')[0] != '#include <stdio.h>':
+        return False, "Missing 'stdio.h' library"
+    
+    return True, ''
+
+
+def check_print_statements(function_contents):
+    # make sure there's a line that says printf("Hello World!\nGoodbye World!\n");
+    expected_line = 'printf("Hello World!\\nGoodbye World!\\n");'
+    if expected_line not in function_contents:
+        return False, 'Missing `printf()` statement or text to print is incorrect.'
+
+    return True, ''
+
+
+def check_output(filepath):
+    # Check output to verify that Hello World comes before Goodbye World
+    program_output = run_program(filepath)
+    expected_output = 'Hello World!\nGoodbye World!\n'
+
+    if program_output != expected_output:
+        return False, 'Program output does not match expected output.'
+
+    return True, ''
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
+
+    filepath = sys.argv[1]
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = get_file_contents(filepath)
+    main_func = format_func_declar('int main()')
+    main_func_contents = get_function_contents(file_contents, main_func)
+
+    # List of functions to run for verification process
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_print_statements(main_func_contents),
+        check_output(filepath)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print('Congratulations! You have passed this challenge! Here is your flag:')
+    print_flag()
