@@ -6,3 +6,6 @@ challenges:
 - id: running-c-programs
   name: Running C Programs
   allow_privileged: false
+- id: output-files
+  name: Output Files
+  allow_privileged: false
