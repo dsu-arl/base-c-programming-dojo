@@ -10,3 +10,34 @@ def print_flag():
 		print("Error: Flag file not found.")
 
 # Add your imports and other code below here
+from paceCParser.parser import *
+
+
+def check_libraries(file_contents):
+    if file_contents.split('\n')[0] != '#include <stdio.h>':
+        return False, "Missing 'stdio.h' library"
+    
+    return True, ''
+
+
+if __name__ == '__main__':
+	# make sure there's a line that says printf("Hello World!\n");
+	# make sure there's a line that says printf("Goodbye World!\n");
+	# Check output to verify that Hello World comes before Goodbye World
+	if len(sys.argv) != 2:
+		print('Usage: verify <user_file>.c')
+		sys.exit(1)
+	
+	red_text_code = '\033[31m'
+	green_text_code = '\033[32m'
+	reset_code = '\033[0m'
+
+	filepath = sys.argv[1]
+
+	if not verify_initial_checks(filepath):
+		sys.exit(1)
+	
+	file_contents = get_file_contents(filepath)
+	passed, error_msg = check_libraries(file_contents)
+	if not passed:
+		print(f'{}')
