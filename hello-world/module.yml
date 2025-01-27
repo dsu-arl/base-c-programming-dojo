@@ -3,8 +3,17 @@ challenges:
 - id: hello-world
   name: Hello World
   allow_privileged: false
+- id: running-c-programs
+  name: Running C Programs
+  allow_privileged: false
 - id: output-files
   name: Output Files
+  allow_privileged: false
+- id: printing-multiple-lines-part-1
+  name: Printing Multiple Lines Part 1
+  allow_privileged: false
+- id: printing-multiple-lines-part-2
+  name: Printing Multiple Lines Part 2
   allow_privileged: false
 - id: knowledge-check
   name: Knowledge Check
