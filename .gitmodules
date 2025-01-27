@@ -1,6 +1,11 @@
 [submodule "hello-world/hello-world/paceCParser"]
 	path = hello-world/hello-world/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+<<<<<<< HEAD
 [submodule "hello-world/printing-multiple-lines-part-2/paceCParser"]
 	path = hello-world/printing-multiple-lines-part-2/paceCParser
+=======
+[submodule "hello-world/printing-multiple-lines-part-1/paceCParser"]
+	path = hello-world/printing-multiple-lines-part-1/paceCParser
+>>>>>>> origin/dev
 	url = https://github.com/dsu-arl/paceCParser
