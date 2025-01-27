@@ -9,3 +9,6 @@ challenges:
 - id: output-files
   name: Output Files
   allow_privileged: false
+- id: printing-multiple-lines-part-1
+  name: Printing Multiple Lines Part 1
+  allow_privileged: false
