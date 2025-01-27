@@ -7,3 +7,6 @@
 [submodule "hello-world/printing-multiple-lines-part-2/paceCParser"]
 	path = hello-world/printing-multiple-lines-part-2/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "hello-world/knowledge-check/paceCParser"]
+	path = hello-world/knowledge-check/paceCParser
+	url = https://github.com/dsu-arl/paceCParser

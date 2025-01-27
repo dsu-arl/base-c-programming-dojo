@@ -15,3 +15,6 @@ challenges:
 - id: printing-multiple-lines-part-2
   name: Printing Multiple Lines Part 2
   allow_privileged: false
+- id: knowledge-check
+  name: Knowledge Check
+  allow_privileged: false
