@@ -48,8 +48,27 @@ int year = 2025;
 ### Printing Integers
 When printing variables, we will continue using the `printf` function. 
 To print out the value stored in a variable, we will need to use __format specifiers__, which are special characters that tell `printf` how to display output. 
-The format specifier for integers is `%d`. 
-TODO: Finish this!
+The format specifier for integers is `%d`.
+When printing variables, we also need to tell `printf` which variable to print. 
+```
+printf("The current year is %d\n", year);
+```
+
+In the example above, `printf` will print all of the text in the quotation marks, and it will replace the `%d` with the value stored in the `year` variable. 
+
+We can print multiple variables in a single `printf`. The number of variables must match the number of `%d`s you have, and the order will also match. The first `%d` will print the value stored in the first variable, the second `%d` will print the second variable, and so on.
+```
+printf("%d, %d\n", x, y);
+```
 
 ### Challenge Instructions
 Follow these steps to complete this challenge!
+
+1. Create a new C file in your home directory (whatever name you want).
+2. Declare an integer variable with the name `age`, and initialize it to your current age.
+3. Print out your integer variable in the following format (don't forget the `\n`):
+```
+My age is: 25
+```
+4. Compile and run your program to test it.
+5. To get the flag, run `verify <your_file>.c` to verify your solution.
