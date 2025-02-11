@@ -34,7 +34,3 @@ for statement in function_contents:
             print_flag()
         else:
             print("Incorrect Print Statement Structure")
-        
-        
-
-
