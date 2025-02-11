@@ -11,15 +11,30 @@ def print_flag():
 
 # Add your imports and other code below here
 from paceCParser.parser import *
+import re
 
+print_re = re.compile(r'printf\( *"My +name +is ?:? +%d\\n", ?age *\);')
 filepath = sys.argv[1]
 
 file_contents = get_file_contents(filepath)
 main_func = format_func_declar('int main()')
 function_contents = get_function_contents_v2(file_contents, main_func)
 
+variable_check = False
 for statement in function_contents:
     if isinstance(statement, Variable):
-        if statement.data_type == 'int' and statement.name == 'age':
+        if statement.data_type == "int" and statement.name == 'age':
+            variable_check = True
+        elif statement.data_type == "int":
+            print("Incorrect Variable Name")
+        elif statement.name == "age":
+            print("Incorrect Data Type")
+    else:
+        if print_re.search(statement) and variable_check:
             print_flag()
+        else:
+            print("Incorrect Print Statement Structure")
+        
+        
+
 
