@@ -10,3 +10,16 @@ def print_flag():
 		print("Error: Flag file not found.")
 
 # Add your imports and other code below here
+from paceCParser.parser import *
+
+filepath = sys.argv[1]
+
+file_contents = get_file_contents(filepath)
+main_func = format_func_declar('int main()')
+function_contents = get_function_contents_v2(file_contents, main_func)
+
+for statement in function_contents:
+    if isinstance(statement, Variable):
+        if statement.data_type == 'int' and statement.name == 'age':
+            print_flag()
+
