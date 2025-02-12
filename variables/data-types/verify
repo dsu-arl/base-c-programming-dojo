@@ -14,6 +14,10 @@ from paceCParser.parser import *
 import os
 import re
 
+CHAR_VAR_NAME = ""
+INT_VAR_NAME = ""
+FLOAT_VAR_NAME = ""
+
 def check_c_file(current_dir, filename):
     filepath = os.path.join(current_dir, filename)
     if not os.path.isfile(filepath):
@@ -28,6 +32,10 @@ def check_libraries(file_contents):
     return True, ""
 
 def check_variables(function_contents):
+    global INT_VAR_NAME
+    global FLOAT_VAR_NAME
+    global CHAR_VAR_NAME
+
     if len(function_contents) > 7:
         return False, "Incorrect number of statements."
 
@@ -37,14 +45,14 @@ def check_variables(function_contents):
         if variable.data_type not in ["int", "float", "char"]:
             return False, "{} variable is not of an expected data type, got {} expecting one of int, float, char.".format(variable.name, variable.data_type)
 
-        if variable.data_type == "int" and variable.name != "age":
-            return False, "Integer variable could use a better name, i.e. age."
+        if variable.data_type == "int":
+            INT_VAR_NAME = variable.name
 
-        if variable.data_type == "float" and variable.name != "gpa":
-            return False, "Float variable could use a better name, i.e. gpa."
+        if variable.data_type == "float":
+            FLOAT_VAR_NAME = variable.name
 
-        if variable.data_type == "char" and variable.name != "initial":
-            return False, "Char variable could use a better name, i.e. initial."
+        if variable.data_type == "char":
+            CHAR_VAR_NAME = variable.name
 
     return True, ""
 
@@ -56,9 +64,9 @@ def check_print_statements(function_contents):
         return False, "Incorrect number of print statements."
  
     expected_print_statements = [
-        'printf("My age is: %d\\n", age);',
-        'printf("My first initial is: %c\\n", initial);', 
-        'printf("My GPA is: %f\\n", gpa);'
+        f'printf("My age is: %d\\n", {INT_VAR_NAME});',
+        f'printf("My first initial is: %c\\n", {CHAR_VAR_NAME});', 
+        f'printf("My GPA is: %f\\n", {FLOAT_VAR_NAME});'
     ]
 
     for statement in print_statements:
