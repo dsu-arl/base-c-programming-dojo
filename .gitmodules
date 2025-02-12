@@ -10,3 +10,6 @@
 [submodule "hello-world/knowledge-check/paceCParser"]
 	path = hello-world/knowledge-check/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/data-types/paceCParser"]
+	path = variables/data-types/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
