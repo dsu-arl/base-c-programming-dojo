@@ -13,3 +13,6 @@
 [submodule "variables/data-types/paceCParser"]
 	path = variables/data-types/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/integer-variables/paceCParser"]
+	path = variables/integer-variables/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
