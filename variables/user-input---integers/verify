@@ -14,8 +14,6 @@ from paceCParser.parser import *
 import os
 import re
 
-INT_VAR_NAME = ""
-
 def check_c_file(current_dir, filename):
     filepath = os.path.join(current_dir, filename)
     if not os.path.isfile(filepath):
@@ -30,8 +28,6 @@ def check_libraries(file_contents):
     return True, ""
 
 def check_variables(function_contents):
-    global INT_VAR_NAME
-
     variables = [v for v in function_contents if not isinstance(v, str)]
 
     if len(variables) != 1:
@@ -41,8 +37,8 @@ def check_variables(function_contents):
         if variable.data_type not in ["int", "char", "float"]:
             return False, "{} variable is not of an expected data type, got {} expecting one of int, float, char.".format(variable.name, variable.data_type)
 
-        if variable.data_type == "int":
-            INT_VAR_NAME = variable.name
+        if variable.data_type == "int" and variable.name != "age":
+            return False, "{} variable does not have expected name 'age'.".format(variable.name)
 
     return True, ""
 
@@ -59,7 +55,7 @@ def check_statements(function_contents):
 
     expected_print_statements = [
         'printf("What is your age: ");',
-        f'printf("Your age is: %d\\n", {INT_VAR_NAME});'
+        f'printf("Your age is: %d\\n", age);'
     ]
 
     for statement in print_statements:
@@ -67,7 +63,7 @@ def check_statements(function_contents):
             return False, "Print Statement: {}, does not match expected.".format(statement)
 
     for statement in scan_statements:
-        if statement != f'scanf("%d", &{INT_VAR_NAME});':
+        if statement != f'scanf("%d", &age);':
             return False, "Scanf Statement: {}, does not match expected.".format(statement)
 
     return True, ""
