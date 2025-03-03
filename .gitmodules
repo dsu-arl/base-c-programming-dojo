@@ -19,3 +19,6 @@
 [submodule "variables/integer-variables/paceCParser"]
 	path = variables/integer-variables/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/find-the-sum/paceCParser"]
+	path = variables/find-the-sum/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
