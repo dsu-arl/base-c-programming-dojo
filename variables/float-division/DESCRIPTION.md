@@ -73,10 +73,12 @@ Follow these steps to complete this challenge!
 2. Get user input for two **integer variables**.
 3. Divide the first number by the second number, and store the result in a **float**.
 4. Print out the **operation** and the result, with all 6 decimal places of precision. (Hint: You will need two `%d`s and one `%f` in your print statement, along with all three variables in the correct order.)
+5. Compile and run your program to test it.
+6. To get the flag, run verify <yourfile>.c to verify your solution.
+
+Example output:
 ```
 Enter your first integer: 8
 Enter your second integer: 3
 8 / 3 = 2.666667
 ```
-5. Compile and run your program to test it.
-6. To get the flag, run verify <yourfile>.c to verify your solution.
