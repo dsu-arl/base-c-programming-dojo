@@ -39,7 +39,7 @@ printf("Result: %f\n", res);
 
 We would expect this result to be 1.25, but because integer division occurred, this is the output:
 ```
-Result = 1
+Result: 1
 ```
 
 If we want to keep those decimal places, we need to tell the program to divide those integers like they are floats.
@@ -50,7 +50,6 @@ This casting only occurs on the line that it is used, and does not change the da
 When casting from one type to another, make sure you are storing the result as the correct type.
 
 (Note that if you cast a `float` to an `int`, it will just drop the decimal places and round down.)
-
 
 With most math operations, you technically only need to cast one of the variables to a float, but you can also cast both if you prefer. 
 
