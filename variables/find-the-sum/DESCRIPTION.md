@@ -42,6 +42,8 @@ Follow these steps to complete this challenge!
 3. Get user input for `num1` and `num2`.
 4. Find the `sum` by adding `num1` and `num2` together.
 5. Print out the result!
+6. To get the flag, run verify <yourfile>.c to verify your solution.
+
 Example:
 ```
 Enter your first number: 5
