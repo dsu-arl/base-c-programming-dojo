@@ -1,0 +1,24 @@
+[submodule "hello-world/hello-world/paceCParser"]
+	path = hello-world/hello-world/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "hello-world/printing-multiple-lines-part-1/paceCParser"]
+	path = hello-world/printing-multiple-lines-part-1/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "hello-world/printing-multiple-lines-part-2/paceCParser"]
+	path = hello-world/printing-multiple-lines-part-2/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "hello-world/knowledge-check/paceCParser"]
+	path = hello-world/knowledge-check/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/user-input---integers/paceCParser"]
+	path = variables/user-input---integers/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/data-types/paceCParser"]
+	path = variables/data-types/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/integer-variables/paceCParser"]
+	path = variables/integer-variables/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/find-the-sum/paceCParser"]
+	path = variables/find-the-sum/paceCParser
+	url = https://github.com/dsu-arl/paceCParser

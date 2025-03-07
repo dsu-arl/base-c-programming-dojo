@@ -129,9 +129,10 @@ def init_dojo():
     dojo_data = {
         'id': dojo_id,
         'name': dojo_name,
-        'type': dojo_type,
         'modules': []
     }
+    if dojo_type != '':
+        dojo_data['type'] = dojo_type
     write_dojo_yml(dojo_data)
 
 

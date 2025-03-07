@@ -1,1 +1,14 @@
 name: Variables
+challenges:
+- id: integer-variables
+  name: Integer Variables
+  allow_privileged: false
+- id: find-the-sum
+  name: Find the Sum!
+  allow_privileged: false
+- id: data-types
+  name: Data Types
+  allow_privileged: false
+- id: user-input---integers
+  name: User Input - Integers
+  allow_privileged: false

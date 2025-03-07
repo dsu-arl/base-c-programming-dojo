@@ -1,0 +1,14 @@
+name: Start Here!
+challenges:
+  - id: vscode
+    name: Using the VSCode Workspace
+    allow_privileged: false
+  - id: challenge
+    name: Running Challenges
+    allow_privileged: false
+  - id: file
+    name: Make a File
+    allow_privileged: false
+  - id: edit
+    name: Edit a File
+    allow_privileged: false

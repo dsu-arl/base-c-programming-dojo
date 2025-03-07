@@ -1,0 +1,67 @@
+#!/opt/pwn.college/python
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.parser import *
+
+
+def check_libraries(file_contents):
+    if file_contents.split('\n')[0] != '#include <stdio.h>':
+        return False, "Missing 'stdio.h' library"
+    
+    return True, ''
+
+
+def check_file_contents(function_contents):
+    # Make sure it contains the line printf("Hello World!\\n");
+    expected_line = 'printf("Hello World!\\n");'
+    if expected_line not in function_contents:
+        return False, '`printf()` not called or incorrect string to print'
+
+    # Make sure file only has printf() statement and return statement
+    if function_contents != ['printf("Hello World!\\n");', 'return 0;']:
+        return False, 'File should only contain `printf()` statement and `return` statement'
+
+    return True, ''
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
+
+    red_text_code = '\033[31m'
+    green_text_code = '\033[32m'
+    reset_code = '\033[0m'
+
+    filepath = sys.argv[1]
+
+    # Checks if the given program compiles and if the main function is written correctly
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = get_file_contents(filepath)
+    passed, error_msg = check_libraries(file_contents)
+    if not passed:
+        print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
+        sys.exit(1)
+
+    main_func = format_func_declar('int main()')
+    main_func_contents = get_function_contents(file_contents, main_func)
+
+    passed, error_msg = check_file_contents(main_func_contents)
+    if not passed:
+        print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
+        sys.exit(1)
+
+    print(f'{green_text_code}Correct{reset_code}')
+    print('Congratulations! You have passed this challenge! Here is your flag:')
+    print_flag()
