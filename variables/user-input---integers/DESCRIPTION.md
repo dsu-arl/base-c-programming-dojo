@@ -56,9 +56,11 @@ Follow these steps to complete this challenge!
 1. Make a new C file, or edit your file from the last challenge.
 2. Declare an integer variable with the name `age`, and get __user input__ to initialize it (make a prompt!).
 3. Print out the value that the user entered in the following format:
+4. Compile and run your program to test it.
+5. To get the flag, run `verify <yourfile>.c` to verify your solution.
+
+Example output:
 ```
 What is your age: 23 
 Your age is: 23
 ```
-4. Compile and run your program to test it.
-5. To get the flag, run `verify <yourfile>.c` to verify your solution.
