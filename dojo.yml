@@ -13,3 +13,7 @@ modules:
   name: Arrays
 - id: functions
   name: Functions
+- id: start-here
+  name: Start Here
+- id: linux-basics
+  name: Linux Basics
