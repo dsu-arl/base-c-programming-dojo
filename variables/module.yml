@@ -6,3 +6,12 @@ challenges:
 - id: all-the-math
   name: All the Math!
   allow_privileged: false
+- id: find-the-sum
+  name: Find the Sum!
+  allow_privileged: false
+- id: data-types
+  name: Data Types
+  allow_privileged: false
+- id: user-input---integers
+  name: User Input - Integers
+  allow_privileged: false

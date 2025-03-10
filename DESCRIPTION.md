@@ -12,3 +12,5 @@ C is a **compiled language**, which means the computer translates human-written 
 
 
 Let's get started with the Hello World module!
+
+All content in this dojo was created by Dakota State University.
