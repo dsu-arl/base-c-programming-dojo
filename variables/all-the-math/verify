@@ -11,7 +11,7 @@ def print_flag():
 		print("Error: Flag file not found.")
 
 # Add your imports and other code below here
-from paceCParser import *
+from paceCParser.parser import *
 import os
 
 VAR_1_NAME = ""
@@ -39,9 +39,6 @@ def check_variables(function_contents):
 
 	variables = [v for v in function_contents if not isinstance(v, str)]
 
-	if len(variables) > 2:
-		return False, "Incorrect number of variables."
-
 	for variable in variables:
 		if variable.data_type not in ['int', None]:
 			return False, f'{variable.name} variable is not of an expected data type, got {variable.data_type} expecting int.'
@@ -50,14 +47,19 @@ def check_variables(function_contents):
 			if not VAR_1_NAME:
 				VAR_1_NAME = variable.name
 
-			else:
+			elif not VAR_2_NAME:
 				VAR_2_NAME = variable.name
 
 	# Math is done inside of print statements
 	if len(variables) == 2:
 		print_statements = [s for s in function_contents if isinstance(s, str) and "printf" in s]
 
+		if len(print_statements) != 7:
+			return False, "Incorrect number of print statements."
+
 		expected_print_statements = [
+			'printf("Enter your first number: ");',
+			'printf("Enter your second number: ");',
 			f'printf("%d + %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"+"+VAR_2_NAME});',
 			f'printf("%d + %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_2_NAME+"+"+VAR_1_NAME});',
 			f'printf("%d - %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"-"+VAR_2_NAME});',
@@ -114,6 +116,8 @@ def check_statements(function_contents):
 		if statement not in expected_scan_statements:
 			return False, f'Scanf Statement: {statement}, does not match expected.'
 
+	return True, ""
+
 
 if __name__ == '__main__':
 	current_dir = os.getcwd()
@@ -136,7 +140,7 @@ if __name__ == '__main__':
 	verification_funcs = [
 		check_libraries(file_contents),
 		check_variables(function_contents),
-		check_statements(function_contents)
+		check_statements(function_contents),
 	]
 
 	for func in verification_funcs:
