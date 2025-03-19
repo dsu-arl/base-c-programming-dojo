@@ -2,6 +2,7 @@
 import sys
 sys.path.append('/challenge')
 
+
 def print_flag():
 	try:
 		with open("/flag", "r") as f:
@@ -10,3 +11,140 @@ def print_flag():
 		print("Error: Flag file not found.")
 
 # Add your imports and other code below here
+from paceCParser import *
+import os
+
+VAR_1_NAME = ""
+VAR_2_NAME = ""
+
+
+def check_c_file(current_dir, filename):
+	filepath = os.path.join(current_dir, filename)
+	if not os.path.isfile(filepath):
+		return False, f'Unable to find C file named {filename}. Did you name it something else?'
+
+	return True, ""
+
+
+def check_libraries(file_contents):
+	if file_contents.split('\n')[0] != '#include <stdio.h>':
+		return False, "Missing 'stdio.h' library."
+
+	return True, ""
+
+
+def check_variables(function_contents):
+	global VAR_1_NAME
+	global VAR_2_NAME
+
+	variables = [v for v in function_contents if not isinstance(v, str)]
+
+	if len(variables) > 2:
+		return False, "Incorrect number of variables."
+
+	for variable in variables:
+		if variable.data_type not in ['int', None]:
+			return False, f'{variable.name} variable is not of an expected data type, got {variable.data_type} expecting int.'
+
+		if variable.data_type == "int":
+			if not VAR_1_NAME:
+				VAR_1_NAME = variable.name
+
+			else:
+				VAR_2_NAME = variable.name
+
+	# Math is done inside of print statements
+	if len(variables) == 2:
+		print_statements = [s for s in function_contents if isinstance(s, str) and "printf" in s]
+
+		expected_print_statements = [
+			f'printf("%d + %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"+"+VAR_2_NAME});',
+			f'printf("%d + %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_2_NAME+"+"+VAR_1_NAME});',
+			f'printf("%d - %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"-"+VAR_2_NAME});',
+			f'printf("%d - %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_2_NAME+"-"+VAR_1_NAME});',
+			f'printf("%d * %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"*"+VAR_2_NAME});',
+			f'printf("%d * %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_2_NAME+"*"+VAR_1_NAME});',
+			f'printf("%d / %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"/"+VAR_2_NAME});',
+			f'printf("%d / %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_2_NAME+"/"+VAR_1_NAME});',
+			f'printf("%d % %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_1_NAME+"%"+VAR_2_NAME});',
+			f'printf("%d % %d = %d\\n", {VAR_1_NAME}, {VAR_2_NAME}, {VAR_2_NAME+"%"+VAR_1_NAME});',
+		]
+
+		for statement in print_statements:
+			if statement not in expected_print_statements:
+				return False, f'Print Statement: {statement}, does not match expected.'
+
+	# Math is done inside of variables, we don't care if they get reused
+	else:
+		expected_math_statements = [
+			f'{VAR_1_NAME} + {VAR_2_NAME}',
+			f'{VAR_2_NAME} + {VAR_1_NAME}',
+			f'{VAR_1_NAME} - {VAR_2_NAME}',
+			f'{VAR_2_NAME} - {VAR_1_NAME}',
+			f'{VAR_1_NAME} * {VAR_2_NAME}',
+			f'{VAR_2_NAME} * {VAR_1_NAME}',
+			f'{VAR_1_NAME} / {VAR_2_NAME}',
+			f'{VAR_2_NAME} / {VAR_1_NAME}',
+			f'{VAR_1_NAME} % {VAR_2_NAME}',
+			f'{VAR_2_NAME} % {VAR_1_NAME}',
+		]
+
+		for variable in variables:
+			if variable.data_type is None and variable.value not in expected_math_statements:
+				return False, f'{variable.name} variable does not have expected math statement'
+
+	return True, ""
+
+
+def check_statements(function_contents):
+	global VAR_1_NAME
+	global VAR_2_NAME
+
+	scan_statements = [s for s in function_contents if isinstance(s, str) and "scanf" in s]
+
+	if len(scan_statements) != 2:
+		return False, "Invalid number of scanf statements."
+
+	expected_scan_statements = [
+		f'scanf("%d", &{VAR_1_NAME});',
+		f'scanf("%d", &{VAR_2_NAME});'
+	]
+
+	for statement in scan_statements:
+		if statement not in expected_scan_statements:
+			return False, f'Scanf Statement: {statement}, does not match expected.'
+
+
+if __name__ == '__main__':
+	current_dir = os.getcwd()
+
+	filename = sys.argv[1]
+	filepath = os.path.join(current_dir, filename)
+
+	passed, error_msg = check_c_file(current_dir, filename)
+	if not passed:
+		print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+		sys.exit(1)
+
+	if not verify_initial_checks(filepath):
+		sys.exit(1)
+
+	file_contents = get_file_contents(filepath)
+	main_func = format_func_declar('int main()')
+	function_contents = get_function_contents_v2(file_contents, main_func)
+
+	verification_funcs = [
+		check_libraries(file_contents),
+		check_variables(function_contents),
+		check_statements(function_contents)
+	]
+
+	for func in verification_funcs:
+		passed, error = func
+		if not passed:
+			print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error}')
+			sys.exit(1)
+
+	print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+	print("Congratulations! You have passed this challenge! Here is your flag:")
+	print_flag()
