@@ -1,4 +1,4 @@
-#!/opt/pwn.college/python
+#!/usr/bin/exec-suid --real -- /usr/bin/python -I
 import sys
 sys.path.append('/challenge')
 
@@ -10,11 +10,11 @@ def print_flag():
         print("Error: Flag file not found.")
 
 # Add your imports and other code below here
-from paceCParser.parser import *
+from paceCParser import parser
 
 
 def check_libraries(file_contents):
-    if file_contents.split('\n')[0] != '#include <stdio.h>':
+    if '#include <stdio.h>' not in file_contents[0]:
         return False, "Missing 'stdio.h' library"
     
     return True, ''
@@ -45,19 +45,24 @@ if __name__ == '__main__':
     filepath = sys.argv[1]
 
     # Checks if the given program compiles and if the main function is written correctly
-    if not verify_initial_checks(filepath):
+    if not parser.verify_initial_checks(filepath):
         sys.exit(1)
 
-    file_contents = get_file_contents(filepath)
+    file_contents = parser.parse_file(filepath)
+
     passed, error_msg = check_libraries(file_contents)
     if not passed:
         print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
         sys.exit(1)
 
-    main_func = format_func_declar('int main()')
-    main_func_contents = get_function_contents(file_contents, main_func)
+    main_function = {
+        'function_name': 'main',
+        'return_type': 'int',
+        'parameters': []
+    }
+    main_function_contents = parser.retrieve_function_body(file_contents, **main_function)
 
-    passed, error_msg = check_file_contents(main_func_contents)
+    passed, error_msg = check_file_contents(main_function_contents)
     if not passed:
         print(f'{red_text_code}Incorrect{reset_code}: {error_msg}')
         sys.exit(1)
