@@ -1,4 +1,4 @@
-#!/opt/pwn.college/python
+#!/usr/bin/exec-suid --real -- /usr/bin/python -I
 import sys
 sys.path.append('/challenge')
 
@@ -10,11 +10,11 @@ def print_flag():
         print("Error: Flag file not found.")
 
 # Add your imports and other code below here
-from paceCParser.parser import *
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, compile_program, run_program, retrieve_function_body, parse_file, verify_initial_checks
 
 
 def check_libraries(file_contents):
-    if file_contents.split('\n')[0] != '#include <stdio.h>':
+    if '#include <stdio.h>' not in file_contents:
         return False, "Missing 'stdio.h' library"
     
     return True, ''
@@ -36,7 +36,8 @@ def check_print_statements(function_contents):
 
 def check_output(filepath):
     # Check output to verify that Hello World comes before Goodbye World
-    program_output = run_program(filepath)
+    _ = compile_program(filepath)
+    program_output = run_program()
     expected_output = 'Hello World!\nGoodbye World!\n'
 
     if program_output != expected_output:
@@ -54,14 +55,14 @@ if __name__ == '__main__':
     if not verify_initial_checks(filepath):
         sys.exit(1)
 
-    file_contents = get_file_contents(filepath)
-    main_func = format_func_declar('int main()')
-    main_func_contents = get_function_contents(file_contents, main_func)
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
 
     # List of functions to run for verification process
     verification_funcs = [
         check_libraries(file_contents),
-        check_print_statements(main_func_contents),
+        check_print_statements(main_function_contents),
         check_output(filepath)
     ]
 
