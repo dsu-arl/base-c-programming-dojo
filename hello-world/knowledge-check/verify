@@ -11,7 +11,7 @@ def print_flag():
 
 # Add your imports and other code below here
 import os
-from paceCParser.parser import *
+from paceCParser.parser import RED_TEXT_CODE, GREEN_TEXT_CODE, RESET_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body, run_program
 
 
 def check_c_file(working_dir):
@@ -24,7 +24,7 @@ def check_c_file(working_dir):
 
 
 def check_libraries(file_contents):
-    if file_contents.split('\n')[0] != '#include <stdio.h>':
+    if '#include <stdio.h>' not in file_contents:
         return False, "Missing 'stdio.h' library"
 
     return True, ''
@@ -72,19 +72,30 @@ if __name__ == '__main__':
     if not passed:
         print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
         sys.exit(1)
-    
+    print('C')
     # Compiles successfully
     filepath = os.path.join(current_dir, 'colors.c')
     if not verify_initial_checks(filepath):
         sys.exit(1)
     
-    file_contents = get_file_contents(filepath)
-    main_func = format_func_declar('int main()')
-    main_func_contents = get_function_contents(file_contents, main_func)
+    file_contents = parse_file(filepath)
+
+    # Check if stdio.h library exists
+    passed, error_msg = check_libraries(file_contents)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    main_function = {
+        'function_name': 'main',
+        'return_type': 'int',
+        'parameters': []
+    }
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
 
     # List of functions to run for verification process
     verification_funcs = [
-        check_print_statements(main_func_contents),
+        check_print_statements(main_function_contents),
         check_executable(current_dir),
         check_output(filepath)
     ]

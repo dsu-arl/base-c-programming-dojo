@@ -11,4 +11,4 @@ Blue
 ``` 
 3. Compile your program and name the executable `print_colors`. (Make sure this executable is in your home directory.)
 4. To test your program, compile and run it to see the output.
-5. To get the flag, run `verify` to validate your solution. 
+5. To get the flag, run `/challenge/verify` to validate your solution. 
