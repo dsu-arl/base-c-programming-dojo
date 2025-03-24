@@ -1,4 +1,4 @@
-#!/opt/pwn.college/python
+#!/usr/bin/exec-suid --real -- /usr/bin/python -I
 import sys
 sys.path.append('/challenge')
 
@@ -11,7 +11,7 @@ def print_flag():
 
 # Add your imports and other code below here
 import os
-from paceCParser.parser import RED_TEXT_CODE, GREEN_TEXT_CODE, RESET_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body, run_program
+from paceCParser.parser import RED_TEXT_CODE, GREEN_TEXT_CODE, RESET_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body, compile_program, run_program
 
 
 def check_c_file(working_dir):
@@ -56,7 +56,8 @@ def check_executable(working_dir):
 
 
 def check_output(filepath):
-    program_output = run_program(filepath)
+    success = compile_program(filepath)
+    program_output = run_program()
     expected_output = 'Red\nGreen\nBlue\n'
 
     if program_output != expected_output:
@@ -72,12 +73,16 @@ if __name__ == '__main__':
     if not passed:
         print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
         sys.exit(1)
-    print('C')
+
+    # C file should be colors.c, executable should be print_colors
+    filepath = os.path.join(current_dir, 'colors.c')
+    executable = os.path.join
+
     # Compiles successfully
     filepath = os.path.join(current_dir, 'colors.c')
     if not verify_initial_checks(filepath):
         sys.exit(1)
-    
+
     file_contents = parse_file(filepath)
 
     # Check if stdio.h library exists
