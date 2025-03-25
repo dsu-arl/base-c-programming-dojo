@@ -26,7 +26,7 @@ def check_c_file(current_dir, filename):
     return True, ""
 
 def check_libraries(file_contents):
-    if file_contents.split('\n')[0] != '#include <stdio.h>':
+    if '#include <stdio.h>' not in file_contents:
         return False, "Missing 'stdio.h' library."
     
     return True, ""
