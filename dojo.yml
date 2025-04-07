@@ -1,5 +1,6 @@
 id: csc-150
 name: CSC 150
+image: cocoa23/pace-csc-150-dojo
 modules:
 - id: start-here
   name: Start Here
