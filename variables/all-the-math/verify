@@ -47,7 +47,7 @@ def test_program_inputs(filepath, num_test_cases):
         print('Program failed to compile')
         sys.exit(1)
 
-    test_inputs = generate_test_inputs(num_test_cases, 1, 20)
+    test_inputs = generate_test_inputs(num_test_cases)
 
     total_correct = 0
     for input in test_inputs:
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     if not verify_initial_checks(filepath):
         sys.exit(1)
 
-    num_test_cases = 5
+    num_test_cases = 100
     num_correct_test_cases = test_program_inputs(filepath, num_test_cases)
 
     if num_correct_test_cases < num_test_cases:
