@@ -22,9 +22,6 @@
 [submodule "variables/find-the-sum/paceCParser"]
 	path = variables/find-the-sum/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
-[submodule "paceCParser"]
-	path = paceCParser
-	url = https://github.com/dsu-arl/paceCParser
 [submodule "variables/all-the-math/paceCParser"]
 	path = variables/all-the-math/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
