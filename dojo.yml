@@ -1,6 +1,10 @@
 id: csc-150
 name: CSC 150
 modules:
+- id: start-here
+  name: Start Here
+- id: linux-basics
+  name: Linux Basics
 - id: hello-world
   name: Hello World
 - id: variables
@@ -13,7 +17,3 @@ modules:
   name: Arrays
 - id: functions
   name: Functions
-- id: start-here
-  name: Start Here
-- id: linux-basics
-  name: Linux Basics
