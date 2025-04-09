@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir -p /challenge/bin && ln -sf /bin/python3.8 /challenge/bin
+ln -sf /bin/python3.8 /run/challenge/bin/python
+ln -sf /bin/python3.8 /challenge/python
+
+/challenge/run > /dev/null
