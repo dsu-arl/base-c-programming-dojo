@@ -1,4 +1,4 @@
-#!/usr/bin/exec-suid -- /run/workspace/bin/python3 -I
+#!/usr/bin/exec-suid -- python -I
 import sys
 sys.path.append('/challenge')
 
