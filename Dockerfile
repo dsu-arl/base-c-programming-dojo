@@ -2,6 +2,7 @@ FROM ubuntu
 
 USER root
 RUN apt update
+RUN apt install python3.12 -y
 
 RUN <<EOF
   if id ubuntu; then userdel -f -r ubuntu; fi
