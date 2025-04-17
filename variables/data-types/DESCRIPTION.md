@@ -69,7 +69,7 @@ Follow these steps to complete this challenge!
 3. Initialize your variables with your first initial, your GPA, and your age. (Make sure you match data types correctly!)
 3. Print out all three variables on separate lines, in the following format (and in this order):
 4. Compile and run your program to test it.
-5. To get the flag, run verify <yourfile>.c to verify your solution.
+5. To get the flag, run `/challenge/verify <yourfile>.c` to verify your solution.
 
 Example output:
 ```
