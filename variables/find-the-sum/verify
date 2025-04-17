@@ -1,4 +1,4 @@
-#!/opt/pwn.college/python
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
 
@@ -10,7 +10,7 @@ def print_flag():
 		print("Error: Flag file not found.")
 
 # Add your imports and other code below here
-from paceCParser.parser import *
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, parse_file, verify_initial_checks, retrieve_function_body
 import os
 
 def check_c_file(filepath):
@@ -20,7 +20,7 @@ def check_c_file(filepath):
     return True, ""
 
 def check_libraries(file_contents):
-    if file_contents.split('\n')[0] != '#include <stdio.h>':
+    if '#include <stdio.h>' not in file_contents:
         return False, "Missing 'stdio.h' library."
 
     return True, ""
@@ -80,6 +80,9 @@ def check_statements(function_contents):
     return True, ""
 
 if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
     current_dir = os.getcwd()
 
     filename = sys.argv[1]
@@ -93,14 +96,15 @@ if __name__ == '__main__':
     if not verify_initial_checks(filepath):
         sys.exit(1)
 
-    file_contents = get_file_contents(filepath)
-    main_func = format_func_declar('int main()')
-    function_contents = get_function_contents_v2(file_contents, main_func)
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
     
     verification_funcs = [
         check_libraries(file_contents),
-        check_variables(function_contents),
-        check_statements(function_contents),
+        check_variables(main_function_contents),
+        check_statements(main_function_contents),
     ]
 
     for func in verification_funcs:
