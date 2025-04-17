@@ -55,7 +55,7 @@ def test_program_inputs(filepath, num_test_cases):
         
         # Run the solution program
         solution_output = subprocess.run(
-            [os.path.join(os.getcwd(), 'solution_exec')],
+            ['solution_exec'],
             input=input_str,
             text=True,
             capture_output=True
