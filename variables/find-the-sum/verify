@@ -1,0 +1,118 @@
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+	try:
+		with open("/flag", "r") as f:
+			print(f.read())
+	except FileNotFoundError:
+		print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, parse_file, verify_initial_checks, retrieve_function_body
+import os
+
+def check_c_file(filepath):
+    if not os.path.isfile(filepath):
+        return False, f'Unable to find C file named {filename}. Did you name it something else?'
+
+    return True, ""
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+
+    return True, ""
+
+def check_variables(function_contents):
+    variables = [v for v in function_contents if not isinstance(v, str)]
+
+    if len(variables) != 4:
+        return False, "Incorrect number of variables."
+
+    expected_math_statements = [
+        "num1 + num2",
+        "num2 + num1"
+    ]
+
+    for variable in variables:
+        if variable.data_type not in ['int', None]:
+            return False, f'{variable.name} variable is not of an expected data type, got {variable.data_type} expecting int.'
+
+        if variable.data_type == "int" and variable.name not in ["num1", "num2", "sum"]:
+            return False, f'{variable.name} variable does not have expected name.'
+
+        if variable.data_type == None and variable.value not in expected_math_statements:
+            return False, f'{variable.name} variable does not have the expected math statement'
+
+    return True, ""
+
+def check_statements(function_contents):
+    print_statements = [s for s in function_contents if isinstance(s, str) and "printf" in s]
+    scan_statements = [s for s in function_contents if isinstance(s, str) and "scanf" in s]
+
+    if len(print_statements) != 3:
+        return False, "Invalid number of print statements."
+
+    if len(scan_statements) != 2:
+        return False, "Invalid number of scanf statements."
+
+    expected_print_statements = [
+        'printf("Enter your first number: ");',
+        'printf("Enter your second number: ");',
+        'printf("Sum = %d\\n", sum);'
+    ]
+
+    for statement in print_statements:
+        if statement not in expected_print_statements:
+            return False, f'Print Statement: {statement}, does not match expected.'
+
+    expected_scan_statements = [
+        'scanf("%d", &num1);',
+        'scanf("%d", &num2);'
+    ]
+
+    for statement in scan_statements:
+        if statement not in expected_scan_statements:
+            return False, f'Scanf Statement: {statement}, does not match expected.'
+
+    return True, ""
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
+    current_dir = os.getcwd()
+
+    filename = sys.argv[1]
+    filepath = os.path.join(current_dir, filename)
+
+    passed, error_msg = check_c_file(filepath)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_variables(main_function_contents),
+        check_statements(main_function_contents),
+    ]
+
+    for func in verification_funcs:
+        passed, error = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print("Congragulations! You have passed this challenge! Here is your flag:")
+    print_flag()

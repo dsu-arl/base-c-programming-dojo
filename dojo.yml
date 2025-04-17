@@ -1,6 +1,11 @@
 id: csc-150
 name: CSC 150
+image: nickm543/pc-150-dojo
 modules:
+- id: start-here
+  name: Start Here
+- id: linux-basics
+  name: Linux Basics
 - id: hello-world
   name: Hello World
 - id: variables
