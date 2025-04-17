@@ -101,6 +101,23 @@ def is_dojo_initalized():
 
     return False
 
+def is_unique_new_entry(new, existing, type):
+    new_id, new_name = new.get('id'), new.get('name')
+
+    if new in existing:
+        print(f"Error: A {type} with ID '{new_id}' and name '{new_name}' already exists.")
+        return False
+    
+    for item in existing:
+        if item.get('id') == new_id:
+            print(f"Error: A {type} with ID '{new_id}' already exists.")
+            return False
+        elif item.get('name') == new_name:
+            print(f"Error: A {type} with name '{new_name}' already exists.")
+            return False
+
+    return True
+
 
 ######################### INITIALIZE DOJO #########################
 def init_dojo():
@@ -138,11 +155,34 @@ def init_dojo():
 
 ######################### CREATE MODULE #########################
 def create_module():
+    # Open the dojo.yml file
+    dojo_data = read_dojo_yml()
+
     module_name = inquirer.text(
         message='Enter module name (what will be displayed on pwn.college):'
     ).execute()
     module_path = module_name.lower().replace(' ', '-')
+    new_module = {'id': module_path, 'name': module_name}
 
+    # Need to make sure that module doesn't already exist in dojo.yml
+    existing_modules = dojo_data['modules']
+    while not is_unique_new_entry(new_module, existing_modules, type='module'):
+        choice = inquirer.select(
+            message="What would you like to do?",
+            choices=['Try a different module name', 'Quit']
+        ).execute()
+        
+        if choice == 'Quit':
+            print('Exiting module creation process')
+            return
+    
+        module_name = inquirer.text(
+            message='Enter module name (what will be displayed on pwn.college):'
+        ).execute()
+        module_path = module_name.lower().replace(' ', '-')
+        new_module = {'id': module_path, 'name': module_name}
+
+    # Confirm that module name looks correct
     confirm = inquirer.confirm(message='Do the above settings look correct?').execute()
     if not confirm:
         print('Exiting module creation process')
@@ -162,8 +202,7 @@ def create_module():
 
     # Add to dojo.yml modules
     print('Adding module to dojo.yml file...', end='', flush=True)
-    dojo_data = read_dojo_yml()
-    dojo_data['modules'].append({'id': module_path, 'name': module_name})
+    dojo_data['modules'].append(new_module)
     write_dojo_yml(dojo_data)
     print(' Done')
 
@@ -196,6 +235,12 @@ def create_challenge():
         default=None
     ).execute()
 
+    # Read module.yml file
+    module_data = read_module_yml(module_choice)
+    if 'challenges' not in module_data:
+        module_data['challenges'] = []
+
+    # Get challenge name from user and generate challenge id
     challenge_name = inquirer.text(
         message='Enter challenge name:'
     ).execute()
@@ -206,10 +251,37 @@ def create_challenge():
         default=default_challenge_id
     ).execute()
 
+    new_challenge = {'id': challenge_id, 'name': challenge_name, 'allow_privileged': False}
+
+    # Need to make sure that challenge doesn't already exist in module.yml
+    existing_challenges = module_data['challenges']
+    while not is_unique_new_entry(new_challenge, existing_challenges, type='challenge'):
+        choice = inquirer.select(
+            message="What would you like to do?",
+            choices=['Try a different challenge name', 'Quit']
+        ).execute()
+        
+        if choice == 'Quit':
+            print('Exiting challenge creation process')
+            return
+    
+        challenge_name = inquirer.text(
+            message='Enter challenge name:'
+        ).execute()
+
+        default_challenge_id = challenge_name.lower().replace(' ', '-')
+        challenge_id = inquirer.text(
+            message='Enter challenge ID:',
+            default=default_challenge_id
+        ).execute()
+
+        new_challenge = {'id': challenge_id, 'name': challenge_name, 'allow_privileged': False}
+
+    # Confirm that challenge name looks correct
     confirm = inquirer.confirm(message='Is the above information correct?').execute()
 
     if not confirm:
-        print('Exiting challenge creation')
+        print('Exiting challenge creation process')
         return
 
     # Create challenge folder
@@ -234,7 +306,7 @@ def create_challenge():
 
     # Create verify file with the following content:
     '''
-    #!/opt/pwn.college/python
+    #!/usr/bin/exec-suid --real -- /usr/bin/python -I
     import sys
     sys.path.append('/challenge')
 
@@ -249,29 +321,23 @@ def create_challenge():
     '''
     print('Creating verify file...', end='', flush=True)
     filepath = os.path.join(module_path, 'verify')
+    # Make indents using 4 spaces instead of tabs
+    indent = ' ' * 4
     with open(filepath, 'w') as file:
-        file.write('#!/opt/pwn.college/python\n')
+        file.write('#!/usr/bin/exec-suid --real -- /usr/bin/python -I\n')
         file.write("import sys\n")
         file.write("sys.path.append('/challenge')\n\n")
         file.write("def print_flag():\n")
-        file.write("\ttry:\n")
-        file.write('\t\twith open("/flag", "r") as f:\n')
-        file.write("\t\t\tprint(f.read())\n")
-        file.write("\texcept FileNotFoundError:\n")
-        file.write('\t\tprint("Error: Flag file not found.")\n\n')
+        file.write(f"{indent}try:\n")
+        file.write(f'{indent}{indent}with open("/flag", "r") as f:\n')
+        file.write(f"{indent}{indent}{indent}print(f.read())\n")
+        file.write(f"{indent}except FileNotFoundError:\n")
+        file.write(f'{indent}{indent}print("Error: Flag file not found.")\n\n')
         file.write('# Add your imports and other code below here\n')
     print(' Done')
 
-    # Add challenge to module.yml file section
-    challenge = {
-        'id': challenge_id,
-        'name': challenge_name,
-        'allow_privileged': False
-    }
-    module_data = read_module_yml(module_choice)
-    if 'challenges' not in module_data:
-        module_data['challenges'] = []
-    module_data['challenges'].append(challenge)
+    # Add new challenge to module.yml file section
+    module_data['challenges'].append(new_challenge)
     write_module_yml(module_choice, module_data)
 
 
