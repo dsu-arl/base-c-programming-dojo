@@ -50,6 +50,12 @@ All above snippets will restult in the same output:
 Remember, when printing multiple variables, each `%d` needs a matching variable to print out, and the order matters!
 When doing math in a print statement, the result of the math will be printed in place of the `%d`.
 
+NOTE: Since `%` is used for printing variables, we have to escape it using another `%` so it prints out properly. For example:
+```C
+printf("100%%\n");
+```
+will output `100%`.
+
 ### Challenge Instructions
 Follow these steps to complete this challenge!
 
