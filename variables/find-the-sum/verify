@@ -80,6 +80,9 @@ def check_statements(function_contents):
     return True, ""
 
 if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
     current_dir = os.getcwd()
 
     filename = sys.argv[1]
