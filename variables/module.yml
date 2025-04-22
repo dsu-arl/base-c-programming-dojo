@@ -9,6 +9,9 @@ challenges:
 - id: data-types
   name: Data Types
   allow_privileged: false
+- id: float-division
+  name: Float Division
+  allow_privileged: false
 - id: user-input---integers
   name: User Input - Integers
   allow_privileged: false
