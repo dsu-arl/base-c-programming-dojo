@@ -25,3 +25,6 @@
 [submodule "variables/float-division/paceCParser"]
 	path = variables/float-division/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-statements/paceCParser"]
+	path = conditionals/if-statements/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
