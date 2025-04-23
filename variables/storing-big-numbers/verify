@@ -110,7 +110,7 @@ def check_print(contents):
         f'printf("Large integer after multiplying by 1000: %ld\\n", {LONG_VAR_NAME});'
     ]
     if not any(value in contents for value in correct_long_prints):
-        return False, f"Unable to find print statement showing mutliplication operation on '{LONG_VAR_NAME}' or printed text doesn't match instructions."
+        return False, f"Unable to find print statement showing multiplication operation on '{LONG_VAR_NAME}' or printed text doesn't match instructions."
     
     correct_double_prints = [
         f'printf("Large decimal after adding 5000: %lf\\n",{DOUBLE_VAR_NAME});',
