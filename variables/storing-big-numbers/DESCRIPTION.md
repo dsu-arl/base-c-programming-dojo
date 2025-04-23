@@ -39,8 +39,8 @@ Follow these steps to complete this challenge!
 2. Declare one long variable and one double variable.
 3. Get user input to initialize both variables, using appropriate prompts and format specifiers (`%ld` for `long`, `%lf` for `double`).
 4. Perform the following operations:
-    * For the `long` variable, multiply it by 1000 using `*=` and store the result in the same variable.
-    * For the `double` variable, add 5000 to it using `+=` and store the result in the same variable.
+    * For the `long` variable, multiply it by 1000 using `*=`.
+    * For the `double` variable, add 5000 to it using `+=`.
 5. Print both results in the format shown below, ensuring the `double` shows 6 decimal places.
 6. Compile and run your program to test it.
 7. To get the flag, run `/challenge/verify <yourfile>.c` to verify your solution.
