@@ -47,10 +47,10 @@ def check_variable(contents):
 
 def check_increment(contents):
     if 'num++;' not in contents:
-        return False, "Unable to find incremement operation on 'num' using '++'."
+        return False, "Unable to find increment operation on 'num' using '++'."
 
-    correct_print1 = 'printf("After incremement: %d\\n",num);'
-    correct_print2 = 'printf("After incremement: %d\\n", num);'
+    correct_print1 = 'printf("After increment: %d\\n",num);'
+    correct_print2 = 'printf("After increment: %d\\n", num);'
     if correct_print1 not in contents and correct_print2 not in contents:
         return False, "Unable to find print statement showing increment operation after using '++' or printed text doesn't match instructions."
 
