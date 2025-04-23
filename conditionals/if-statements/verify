@@ -1,4 +1,4 @@
-#!/usr/bin/exec-suid --real -- /usr/bin/python -I
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
 
@@ -10,3 +10,100 @@ def print_flag():
         print("Error: Flag file not found.")
 
 # Add your imports and other code below here
+from paceCParser.data_classes import Variable, If
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body
+import os
+
+
+def check_c_file(current_dir, filename):
+    filepath = os.path.join(current_dir, filename)
+    if not os.path.isfile(filepath):
+        return False, "Unable to find C file named {}. Did you name it something else?".format(filename)
+
+    return True, ""
+
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+
+    return True, ""
+
+
+def check_variable(contents):
+    # verifies an integer named 'age' was declared and initialized from user input with a prompt
+    if Variable(data_type='int', name='age', value=None) not in contents:
+        return False, "Unable to find integer variable named 'age'."
+    
+    correct_prompt = 'printf("Enter your age: ");'
+    if correct_prompt not in contents:
+        return False, "Unable to find prompt for user input or prompt string doesn't match expected prompt."
+    
+    if 'scanf("%d", &age);' not in contents and 'scanf("%d",&age);' not in contents:
+        return False, "Unable to find scanf() statement for 'age'."
+    
+    return True, ''
+
+
+def check_print(contents):
+    correct_prints = [
+        'printf("You are %d years old.\\n",age);',
+        'printf("You are %d years old.\\n", age);'
+    ]
+    if not any(value in contents for value in correct_prints):
+        return False, "Unable to find print statement showing user's age or printed text doesn't match instructions."
+    
+    return True, ''
+
+
+def check_conditional(contents):
+    # If(condition='age >= 18', body=['printf("You are old enough to vote!\\n");'])
+    correct_conditions = ['age >= 18', 'age>=18', 'age > 17', 'age>17']
+    correct_print = 'printf("You are old enough to vote!\\n");'
+
+    for stmt in contents:
+        if isinstance(stmt, If):
+            if stmt.condition in correct_conditions:
+                if stmt.body == [correct_print]:
+                    return True, ''
+
+    return False, "Unable to find if statement with correct condition or print statement in if statement body doesn't match expected output from instructions."
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: /challenge/verify <user_file>.c')
+        sys.exit(1)
+
+    current_dir = os.getcwd()
+    filename = sys.argv[1]
+
+    passed, error_msg = check_c_file(current_dir, filename)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    filepath = os.path.join(current_dir, filename)
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_variable(main_function_contents),
+        check_print(main_function_contents),
+        check_conditional(main_function_contents)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print("Congragulations! You have passed this challenge! Here is your flag:")
+    print_flag()

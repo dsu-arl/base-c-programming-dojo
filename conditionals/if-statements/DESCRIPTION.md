@@ -1,8 +1,8 @@
 ### If Statements in C
-In C, `if` statements allow you to execute code conditionally based on whether a specified condition evaluates to true. An `if` statement checks a condition, and if the condition is true (non-zero in C), the code block inside the if is executed. If the condition is false (zero), the code block is skipped.
+In C, `if` statements allow you to execute code conditionally based on whether a specified condition evaluates to true. An `if` statement checks a condition, and if the condition is true (non-zero in C), the code block inside the `if` is executed. If the condition is false (zero), the code block is skipped.
 
 ### Syntax of If Statements
-An if statement uses the following structure:
+An `if` statement uses the following structure:
 ```C
 if (condition) {
     // Code to execute if condition is true
