@@ -43,15 +43,15 @@ x = 28
 ### Challenge Instructions
 Follow these steps to complete this challenge!
 1. Create a new C file in your home directory (choose any name).
-2. Declare an integer variable num and get user input to initialize it with a prompt.
-3. Perform the following shorthand operations on num in this order:
-    1. Increment num by 1 using ++.
-    2. Add 10 to num using +=.
-    3. Multiply num by 2 using *=.
-    4. Decrement num by 1 using --.
-4. After each operation, print the updated value of num in the format shown below.
+2. Declare an integer variable called `num` and get user input to initialize it with a prompt.
+3. Perform the following shorthand operations on `num` in this order:
+    1. Increment `num` by 1 using `++.`
+    2. Add 10 to `num` using `+=.`
+    3. Multiply `num` by 2 using `*=.`
+    4. Decrement `num` by 1 using `--`.
+4. After each operation, print the updated value of `num` in the format shown below.
 5. Compile and run your program to test it.
-6. To get the flag, run /challenge/verify <yourfile>.c to verify your solution.
+6. To get the flag, run `/challenge/verify <yourfile>.c` to verify your solution.
 
 Example output:
 ```commandline
