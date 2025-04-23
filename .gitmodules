@@ -25,3 +25,6 @@
 [submodule "variables/float-division/paceCParser"]
 	path = variables/float-division/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/storing-big-numbers/paceCParser"]
+	path = variables/storing-big-numbers/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
