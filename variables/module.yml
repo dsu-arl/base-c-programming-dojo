@@ -21,3 +21,6 @@ challenges:
 - id: shorthand-math
   name: Shorthand Math
   allow_privileged: false
+- id: storing-big-numbers
+  name: Storing Big Numbers
+  allow_privileged: false

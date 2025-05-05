@@ -28,6 +28,8 @@
 [submodule "variables/float-division/paceCParser"]
 	path = variables/float-division/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/storing-big-numbers/paceCParser"]
+	path = variables/storing-big-numbers/paceCParser
 [submodule "conditionals/if-statements/paceCParser"]
 	path = conditionals/if-statements/paceCParser
 [submodule "variables/shorthand-math/paceCParser"]
