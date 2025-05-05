@@ -15,3 +15,6 @@ challenges:
 - id: user-input---integers
   name: User Input - Integers
   allow_privileged: false
+- id: shorthand-math
+  name: Shorthand Math
+  allow_privileged: false
