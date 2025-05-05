@@ -1,1 +1,5 @@
 name: Conditionals
+challenges:
+- id: if-statements
+  name: If Statements
+  allow_privileged: false
