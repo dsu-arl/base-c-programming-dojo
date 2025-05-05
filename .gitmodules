@@ -22,9 +22,16 @@
 [submodule "variables/find-the-sum/paceCParser"]
 	path = variables/find-the-sum/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/all-the-math/paceCParser"]
+	path = variables/all-the-math/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
 [submodule "variables/float-division/paceCParser"]
 	path = variables/float-division/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
 [submodule "variables/storing-big-numbers/paceCParser"]
 	path = variables/storing-big-numbers/paceCParser
+[submodule "conditionals/if-statements/paceCParser"]
+	path = conditionals/if-statements/paceCParser
+[submodule "variables/shorthand-math/paceCParser"]
+	path = variables/shorthand-math/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
