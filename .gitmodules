@@ -35,3 +35,6 @@
 [submodule "variables/shorthand-math/paceCParser"]
 	path = variables/shorthand-math/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-else-statements/paceCParser"]
+	path = conditionals/if-else-statements/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
