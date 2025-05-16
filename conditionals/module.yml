@@ -4,7 +4,7 @@ challenges:
   name: If Statements
   allow_privileged: false
 - id: if-else-statements
-  name: If Else Statements
+  name: If | Else Statements
   allow_privileged: false
 - id: if-elseif-else-statements
   name: If | Else If | Else Statements
