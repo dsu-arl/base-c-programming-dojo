@@ -5,9 +5,6 @@ RUN apt update
 RUN apt install python3.12 -y
 RUN apt install gcc -y
 
-# Necessary Python libraries
-# RUN apt install python3-tqdm -y
-
 RUN <<EOF
   if id ubuntu; then userdel -f -r ubuntu; fi
   useradd -s /bin/bash -m hacker
