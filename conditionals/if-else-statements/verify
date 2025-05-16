@@ -103,6 +103,7 @@ if __name__ == '__main__':
 
     if num_correct_test_cases < num_test_cases:
         print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {num_correct_test_cases}/{num_test_cases} test cases passed.')
+        print('Did you make sure that your prompt and output match the challenge example exactly?')
         sys.exit(1)
 
     print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}: {num_correct_test_cases}/{num_test_cases} test cases passed.')
