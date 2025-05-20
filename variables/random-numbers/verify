@@ -22,6 +22,7 @@ def check_c_file(current_dir, filename):
 
     return True, ""
 
+
 def check_libraries(file_contents):
     if '#include <stdio.h>' not in file_contents:
         return False, "Missing 'stdio.h' library."
@@ -30,14 +31,6 @@ def check_libraries(file_contents):
         return False, "Missing 'stdlib.h' library."
 
     return True, ""
-
-def check_print_statements(function_contents):
-    # make sure 
-    expected = 'printf("My age is: %d\\n", age);'
-    if expected in function_contents:
-        return True, ""    
-    else:
-        return False, "Missing `printf()` statement to print age."
 
 
 def check_num1(function_contents):
