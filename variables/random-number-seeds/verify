@@ -13,7 +13,6 @@ def print_flag():
 from paceCParser.data_classes import Variable
 from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, parse_file, retrieve_function_body, verify_initial_checks
 import os
-from typing import Tuple
 
 
 def check_c_file(current_dir, filename):
