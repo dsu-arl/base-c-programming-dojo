@@ -24,3 +24,6 @@ challenges:
 - id: storing-big-numbers
   name: Storing Big Numbers
   allow_privileged: false
+- id: random-number-seeds
+  name: Random Number Seeds
+  allow_privileged: false
