@@ -1,12 +1,119 @@
-#!/usr/bin/exec-suid --real -- /usr/bin/python -I
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
 
 def print_flag():
-    try:
-        with open("/flag", "r") as f:
-            print(f.read())
-    except FileNotFoundError:
-        print("Error: Flag file not found.")
+	try:
+		with open("/flag", "r") as f:
+			print(f.read())
+	except FileNotFoundError:
+		print("Error: Flag file not found.")
 
 # Add your imports and other code below here
+from paceCParser.data_classes import Variable
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, parse_file, retrieve_function_body, verify_initial_checks
+import re
+import os
+
+def check_c_file(current_dir, filename):
+    filepath = os.path.join(current_dir, filename)
+    if not os.path.isfile(filepath):
+        return False, "Unable to find C file named {}. Did you name it something else?".format(filename)
+
+    return True, ""
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+    
+    if '#include <stdlib.h>' not in file_contents:
+        return False, "Missing 'stdlib.h' library."
+
+    return True, ""
+
+
+def check_num1(function_contents):
+    # makes sure there is a variable named rand_num1 with the value "rand() % (100 + 1)"
+    correct_value = "rand()%(100+1)"
+
+    for statement in function_contents:
+        if isinstance(statement, Variable):
+            if statement.data_type == 'int' and statement.name == 'rand_num1':
+                if statement.value.replace(' ', '') == correct_value:
+                    return True, ""
+                else:
+                    return False, "'rand_num1' does not have correct value."
+
+    return False, "Unable to find integer variable 'rand_num1'"
+
+
+def check_num2(function_contents):
+    # makes sure there is a variable named rand_num2 with the value "rand() % (75 + 1)"
+    correct_value = "rand()%(75+1)"
+    
+    for statement in function_contents:
+        if isinstance(statement, Variable):
+            if statement.data_type == 'int' and statement.name == 'rand_num2':
+                if statement.value.replace(' ', '') == correct_value:
+                    return True, ""
+                else:
+                    return False, "'rand_num2' does not have correct value."
+
+    return False, "Unable to find integer variable 'rand_num2'"
+
+
+def check_print_statements(contents):
+    correct_prints = [
+        'printf("Random number (0-100): %d\\n",rand_num1);',
+        'printf("Random number (0-100): %d\\n", rand_num1);'
+    ]
+    if not any(value in contents for value in correct_prints):
+        return False, f"Unable to find print statement showing first randomly generated number or printed text doesn't match instructions."
+    
+    correct_prints = [
+        'printf("Random number (0-75): %d\\n",rand_num2);',
+        'printf("Random number (0-75): %d\\n", rand_num2);'
+    ]
+    if not any(value in contents for value in correct_prints):
+        return False, f"Unable to find print statement showing second randomly generated number or printed text doesn't match instructions."
+    
+    return True, ''
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: /challenge/verify <user_file>.c')
+        sys.exit(1)
+    current_dir = os.getcwd()
+
+    filename = sys.argv[1]
+
+    passed, error_msg = check_c_file(current_dir, filename)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    filepath = os.path.join(current_dir, filename)
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_num1(main_function_contents),
+        check_num2(main_function_contents),
+        check_print_statements(main_function_contents)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print("Congragulations! You have passed this challenge! Here is your flag:")
+    print_flag()

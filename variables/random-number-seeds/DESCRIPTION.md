@@ -43,7 +43,7 @@ Random number: 7
 Follow these steps to complete this challenge!
 1. Create a new C file in your home directory (choose any name).
 2. Include the necessary headers (`<stdio.h>` and `<stdlib.h>`).
-3. Declare an integer variable `seed` and get user input to initialize it with a prompt.
+3. Declare an integer variable `seed` and get user input to initialize it with the prompt shown below.
 4. Use `srand()` with the `seed` variable to initialize the random number generator.
 5. Generate two random integers using `rand()` and store them in the following variables:
     - `rand_num1`: From 0 to 50 (inclusive).
@@ -55,6 +55,6 @@ Follow these steps to complete this challenge!
 Example output (numbers depend on the seed, consistent for the same seed):
 ```commandline
 Enter your seed: 42
-Random number (0-50): 7
-Random number (0-15): 12
+Random number (0-50): 30
+Random number (0-15): 4
 ```
