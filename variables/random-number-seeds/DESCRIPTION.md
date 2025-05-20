@@ -31,7 +31,7 @@ int main() {
 
 Output (same each run with seed 42):
 ```commandline
-Random number: 7
+Random number: 24
 ```
 
 ### Notes

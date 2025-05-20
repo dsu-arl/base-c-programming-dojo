@@ -34,7 +34,7 @@ def check_libraries(file_contents):
     return True, ""
 
 
-def check_seed(contents) -> Tuple[bool, str]:
+def check_seed(contents):
     # checks for seed integer variable, prompt to initialize seed, and uses srand
     seed_var = Variable(data_type='int', name='seed', value=None)
     if seed_var not in contents:
