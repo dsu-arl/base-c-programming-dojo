@@ -48,4 +48,7 @@
 	url = https://github.com/dsu-arl/paceCParser
 [submodule "variables/random-number-seeds/paceCParser"]
 	path = variables/random-number-seeds/paceCParser
+    url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-elseif-else-statements/paceCParser"]
+	path = conditionals/if-elseif-else-statements/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
