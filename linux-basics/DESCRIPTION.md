@@ -1,1 +1,0 @@
-This module will take you through the basics of the Linux operating system command line. You will learn how to perform various tasks such as creating files, searching multiple files for content, and deleting files. 

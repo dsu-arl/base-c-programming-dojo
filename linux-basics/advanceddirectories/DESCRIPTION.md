@@ -1,1 +1,0 @@
-In this challenge you will learn how to create and remove directories, as well as view hidden files! You can start the VSCode workspace, open a terminal, and run `/challenge/solve` to get your instructions.
