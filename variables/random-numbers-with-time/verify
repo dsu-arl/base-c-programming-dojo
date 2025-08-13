@@ -30,6 +30,9 @@ def check_libraries(file_contents):
     if '#include <stdlib.h>' not in file_contents:
         return False, "Missing 'stdlib.h' library."
 
+    if '#include <time.h>' not in file_contents:
+        return False, "Missing 'time.h' library."
+
     return True, ""
 
 
