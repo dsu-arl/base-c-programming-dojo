@@ -1,6 +1,3 @@
-# Welcome to the CSC-150 Dojo!  
-In this dojo, you will learn all about the C programming language!  
-
 ## What is Programming?  
 Programs are a set of instructions that allow computers to perform specific tasks. These instructions, written by humans, are designed to be readable and understandable. Computers then translate and execute these programs, enabling programmers to solve real-world problems.  
 
