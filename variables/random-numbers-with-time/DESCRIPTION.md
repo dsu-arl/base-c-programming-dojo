@@ -28,7 +28,7 @@ Follow these steps to complete this challenge!
     - `rand_num2`: From 0 to 15 (inclusive).
 5. Print both random numbers in the format shown below.
 6. Compile and run your program multiple times to see the different numbers that were generated! Try running `./a.out` twice as fast as you can - you might get the same numbers if you run both within the same second!
-8. To get the flag, run /challenge/verify <yourfile>.c to verify your solution.
+8. To get the flag, run `/challenge/verify <yourfile>.c` to verify your solution.
 
 Example output (will be different than shown, due to seeding with time):
 ```
