@@ -30,3 +30,6 @@ challenges:
 - id: random-number-seeds
   name: Random Number Seeds
   allow_privileged: false
+- id: random-numbers-with-time
+  name: Random Numbers with Time
+  allow_privileged: false
