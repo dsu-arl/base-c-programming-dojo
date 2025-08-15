@@ -22,3 +22,39 @@
 [submodule "variables/find-the-sum/paceCParser"]
 	path = variables/find-the-sum/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/all-the-math/paceCParser"]
+	path = variables/all-the-math/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/float-division/paceCParser"]
+	path = variables/float-division/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/storing-big-numbers/paceCParser"]
+	path = variables/storing-big-numbers/paceCParser
+    url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-statements/paceCParser"]
+	path = conditionals/if-statements/paceCParser
+    url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/shorthand-math/paceCParser"]
+	path = variables/shorthand-math/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/storing-big-numbers/paceCParser"]
+	path = variables/storing-big-numbers/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-statements/paceCParser"]
+	path = conditionals/if-statements/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-else-statements/paceCParser"]
+	path = conditionals/if-else-statements/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/random-number-seeds/paceCParser"]
+	path = variables/random-number-seeds/paceCParser
+    url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-elseif-else-statements/paceCParser"]
+	path = conditionals/if-elseif-else-statements/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "conditionals/if-elseif-else-statements/paceCParser"]
+	path = conditionals/if-elseif-else-statements/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/random-numbers/paceCParser"]
+	path = variables/random-numbers/paceCParser
+	url = https://github.com/dsu-arl/paceCParser

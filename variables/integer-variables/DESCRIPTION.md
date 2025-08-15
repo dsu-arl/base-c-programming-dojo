@@ -68,7 +68,7 @@ Follow these steps to complete this challenge!
 2. Declare an integer variable with the name `age`, and initialize it to your current age.
 3. Print out your integer variable in the following format (don't forget the `\n`):
 4. Compile and run your program to test it.
-5. To get the flag, run `verify <your_file>.c` to verify your solution.
+5. To get the flag, run `/challenge/verify <your_file>.c` to verify your solution.
 
 Example output:
 ```
