@@ -9,9 +9,13 @@ modules:
   name: Variables
 - id: conditionals
   name: Conditionals
-#- id: loops
-#  name: Loops
-#- id: arrays
-#  name: Arrays
-#- id: functions
-#  name: Functions
+- id: loops
+  name: Loops
+- id: arrays
+  name: Arrays
+- id: functions
+  name: Functions
+- id: start-here
+  name: Start Here
+- id: linux-basics
+  name: Linux Basics
