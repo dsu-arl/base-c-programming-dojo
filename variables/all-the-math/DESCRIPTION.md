@@ -63,6 +63,8 @@ Follow these steps to complete this challenge!
 2. Declare two integer variables, and get user input to initialize both.
 3. Using whatever method you prefer, find the result of the following operations: `+`, `-`, `*`, `/`, and `%`. 
 4. Print out all five results in the following format:
+5. Compile and run your program to test it.
+6. To get the flag, run `/challenge/verify <yourfile>.c` to verify your solution.
 ```
 Enter your first number: 4
 Enter your second number: 9
