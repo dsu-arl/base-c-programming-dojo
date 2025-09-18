@@ -15,4 +15,4 @@ Follow these steps to complete the challenge!
 1. Make sure you still have your "Hello World!" C file in your home directory.
 2. Compile your C file and name the output file "hello" using the command `gcc <your_file>.c -o hello` (replacing <your_file> with the name of your C file).
 3. To test your program, run `./hello` to see the output from your program.
-4. To get the flag, run `verify` to validate your solution. 
+4. To get the flag, run `/challenge/verify` to validate your solution. 
