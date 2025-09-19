@@ -3,6 +3,7 @@ image: annaopsahl/pc-c-programming
 challenges:
 - id: hello-world
   name: Hello World
+  image: annaopsahl/pc-linux
 - id: running-c-programs
   name: Running C Programs
 - id: output-files
