@@ -1,5 +1,5 @@
-id: c-programming-fork
-name: FORK C Programming
+id: c-programming
+name: C Programming
 image: annaopsahl/pc-c-programming
 type: base
 modules:
