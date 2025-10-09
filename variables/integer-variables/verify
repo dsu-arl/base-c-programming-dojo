@@ -29,16 +29,27 @@ def check_libraries(file_contents):
     return True, ""
 
 def check_print_statement(function_contents):
+    for line in function_contents:
+        try:
+            _match = re.search('(printf\(".*\%d.*",.+\);)', line)
+        except TypeError:
+            continue
+        if _match:
+            return True, ""
+    return False, "Missing `printf()` statement to print age."
+
+'''
     expected = 'printf("My age is: %d\\n", age);'
     if expected in function_contents:
         return True, ""    
     else:
         return False, "Missing `printf()` statement to print age."
+'''
 
 def check_output(filepath):
     _ = compile_program(filepath)
     program_output = run_program()
-    output_re = re.compile(r'My age is: \d+\n') 
+    output_re = re.compile(r'(([Mm]y).*(age).*(is).*:+.* \d+\w*\n)') 
     if not output_re.search(program_output):
         return False, "Program output does not match expected output."
 
