@@ -36,10 +36,16 @@ def check_libraries(file_contents):
 def check_num1(function_contents):
     # makes sure there is a variable named rand_num1 with the value "rand() % (100 + 1)"
     correct_value = "rand()%(100+1)"
+    is_int = False
+
+    # verify rand_num1 is an int in a very inefficient way
+    for statement in function_contents:
+        if isinstance(statement, Variable) and statement.name == 'rand_num1' and statement.data_type == 'int':
+            is_int = True
 
     for statement in function_contents:
         if isinstance(statement, Variable):
-            if statement.data_type == 'int' and statement.name == 'rand_num1':
+            if is_int and statement.name == 'rand_num1' and statement.value != None:
                 if statement.value.replace(' ', '') == correct_value:
                     return True, ""
                 else:
@@ -51,10 +57,16 @@ def check_num1(function_contents):
 def check_num2(function_contents):
     # makes sure there is a variable named rand_num2 with the value "rand() % (75 + 1)"
     correct_value = "rand()%(75+1)"
+    is_int = False
     
+    # verify rand_num2 is an int in a very inefficient way
+    for statement in function_contents:
+        if isinstance(statement, Variable) and statement.name == 'rand_num2' and statement.data_type == 'int':
+            is_int = True
+
     for statement in function_contents:
         if isinstance(statement, Variable):
-            if statement.data_type == 'int' and statement.name == 'rand_num2':
+            if is_int and statement.name == 'rand_num2' and statement.value != None:
                 if statement.value.replace(' ', '') == correct_value:
                     return True, ""
                 else:
