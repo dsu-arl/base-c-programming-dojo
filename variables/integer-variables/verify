@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
@@ -107,3 +108,103 @@ if __name__ == '__main__':
     print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
     print("Congragulations! You have passed this challenge! Here is your flag:")
     print_flag()
+=======
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+	try:
+		with open("/flag", "r") as f:
+			print(f.read())
+	except FileNotFoundError:
+		print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.data_classes import Variable
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, parse_file, compile_program, run_program, retrieve_function_body, verify_initial_checks
+import re
+import os
+
+def check_c_file(current_dir, filename):
+    filepath = os.path.join(current_dir, filename)
+    if not os.path.isfile(filepath):
+        return False, "Unable to find C file named {}. Did you name it something else?".format(filename)
+
+    return True, ""
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+
+    return True, ""
+
+def check_print_statement(function_contents):
+    expected = 'printf("My age is: %d\\n", age);'
+    if expected in function_contents:
+        return True, ""    
+    else:
+        return False, "Missing `printf()` statement to print age."
+
+def check_output(filepath):
+    _ = compile_program(filepath)
+    program_output = run_program()
+    output_re = re.compile(r'My age is: \d+\n') 
+    if not output_re.search(program_output):
+        return False, "Program output does not match expected output."
+
+    return True, ""
+
+def check_variables(function_contents):
+    if len(function_contents) > 3:
+        return False, "Incorrect number of statements."
+
+    for statement in function_contents:
+        if isinstance(statement, Variable):
+            if statement.data_type == 'int':
+                if statement.name == 'age':
+                    return True, ""
+                else:
+                    return False, "Variable is not named as expected."
+            else:
+                return False, "Variable is not the correct data type."
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
+    current_dir = os.getcwd()
+
+    filename = sys.argv[1]
+
+    passed, error_msg = check_c_file(current_dir, filename)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    filepath = os.path.join(current_dir, filename)
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_variables(main_function_contents),
+        check_print_statement(main_function_contents),
+        check_output(filepath)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print("Congragulations! You have passed this challenge! Here is your flag:")
+    print_flag()
+>>>>>>> main

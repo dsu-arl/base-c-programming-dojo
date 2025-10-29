@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
@@ -108,3 +109,115 @@ if __name__ == '__main__':
     print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}: {num_correct_test_cases}/{num_test_cases} test cases passed.')
     print("Congratulations! You have passed this challenge! Here is your flag:")
     print_flag()
+=======
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+
+def print_flag():
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, verify_initial_checks, compile_program
+import os
+import random
+import subprocess
+
+
+def check_c_file(current_dir, filename):
+    filepath = os.path.join(current_dir, filename)
+    if not os.path.isfile(filepath):
+        return False, f'Unable to find C file named {filename}. Did you name it something else?'
+
+    return True, ""
+
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+
+    return True, ""
+
+
+def generate_test_inputs(num_inputs, min_value=1, max_value=1000):
+    if min_value > max_value:
+        raise ValueError('min_value must be less than or equal to max_value')
+
+    return [[str(random.randint(min_value, max_value)), str(random.randint(min_value, max_value))]
+            for _ in range(num_inputs)]
+
+
+def test_program_inputs(filepath, num_test_cases):
+    # Compile user's program
+    compile_success = compile_program(filepath)
+    if not compile_success:
+        print('Program failed to compile')
+        sys.exit(1)
+
+    test_inputs = generate_test_inputs(num_test_cases)
+
+    total_correct = 0
+    for input in test_inputs:
+        input_str = '\n'.join(input) + '\n'
+        
+        # Run the solution program
+        solution_output = subprocess.run(
+            ['/challenge/solution_exec'],
+            input=input_str,
+            text=True,
+            capture_output=True
+        )
+        if solution_output.returncode != 0:
+            print('An error occurred while running the solution executable')
+            sys.exit(1)
+
+        # Run the user's program
+        user_output = subprocess.run(
+            [os.path.join(os.getcwd(), 'a.out')],
+            input=input_str,
+            text=True,
+            capture_output=True
+        )
+        if user_output.returncode != 0:
+            print('Error during program run')
+            sys.exit(1)
+        
+        if solution_output.stdout == user_output.stdout:
+            total_correct += 1
+
+    return total_correct
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: verify <user_file>.c')
+        sys.exit(1)
+    current_dir = os.getcwd()
+
+    filename = sys.argv[1]
+    filepath = os.path.join(current_dir, filename)
+
+    passed, error_msg = check_c_file(current_dir, filename)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    num_test_cases = 100
+    num_correct_test_cases = test_program_inputs(filepath, num_test_cases)
+
+    if num_correct_test_cases < num_test_cases:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {num_correct_test_cases}/{num_test_cases} test cases passed.')
+        sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}: {num_correct_test_cases}/{num_test_cases} test cases passed.')
+    print("Congratulations! You have passed this challenge! Here is your flag:")
+    print_flag()
+>>>>>>> main
