@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name: Hello World
 challenges:
 - id: hello-world
@@ -19,21 +18,3 @@ challenges:
 - id: knowledge-check
   name: Knowledge Check
   allow_privileged: false
-=======
-name: Hello World
-image: annaopsahl/pc-c-programming
-challenges:
-- id: hello-world
-  name: Hello World
-  image: annaopsahl/pc-linux
-- id: running-c-programs
-  name: Running C Programs
-- id: output-files
-  name: Output Files
-- id: printing-multiple-lines-part-1
-  name: Printing Multiple Lines Part 1
-- id: printing-multiple-lines-part-2
-  name: Printing Multiple Lines Part 2
-- id: knowledge-check
-  name: Knowledge Check
->>>>>>> main
