@@ -6,4 +6,3 @@ There are many different programming languages — you can even design your own!
 
 
 C is a **compiled language**, which means the computer translates human-written programs into machine-readable instructions, resulting in an **executable** program that can be run. C provides the programmer with **low-level memory access**, which grants control over the computer's memory. However, with great power comes great responsibility! Incorrect use of memory can break your program or, in extreme cases, even affect the stability of your computer.
-

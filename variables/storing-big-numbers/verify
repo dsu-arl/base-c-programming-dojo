@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
@@ -159,4 +160,167 @@ if __name__ == '__main__':
 
     print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
     print("Congragulations! You have passed this challenge! Here is your flag:")
+=======
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.data_classes import Variable
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body
+import os
+
+
+LONG_VAR_NAME = None
+DOUBLE_VAR_NAME = None
+
+
+def check_c_file(current_dir, filename):
+    filepath = os.path.join(current_dir, filename)
+    if not os.path.isfile(filepath):
+        return False, "Unable to find C file named {}. Did you name it something else?".format(filename)
+
+    return True, ""
+
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+
+    return True, ""
+
+
+def check_long(contents):
+    global LONG_VAR_NAME
+
+    # makes sure that a long variable is declared
+    # and initialized with user input
+    for stmt in contents:
+        if isinstance(stmt, Variable):
+            if stmt.data_type == 'long' and LONG_VAR_NAME is None:
+                LONG_VAR_NAME = stmt.name
+                break
+    
+    if LONG_VAR_NAME is None:
+        return False, "Unable to find a variable declared with type 'long'."
+
+    correct_prompt = 'printf("Enter a large integer: ");'
+    if correct_prompt not in contents:
+        return False, "Unable to find user input prompt for long variable or prompt string doesn't match expected prompt."
+    
+    correct_scanf = [f'scanf("%ld",&{LONG_VAR_NAME});', f'scanf("%ld", &{LONG_VAR_NAME});']
+    if not any(value in contents for value in correct_scanf):
+        return False, 'Unable to find correct scanf() statement for long variable.'
+    
+    return True, ''
+
+
+def check_double(contents):
+    global DOUBLE_VAR_NAME
+
+    # makes sure that a double variable is declared
+    # and initialized with user input
+    for stmt in contents:
+        if isinstance(stmt, Variable):
+            if stmt.data_type == 'double' and DOUBLE_VAR_NAME is None:
+                DOUBLE_VAR_NAME = stmt.name
+                break
+    
+    if DOUBLE_VAR_NAME is None:
+        return False, "Unable to find a variable declared with type 'double'."
+
+    correct_prompt = 'printf("Enter a large decimal number: ");'
+    if correct_prompt not in contents:
+        return False, "Unable to find user input prompt for double variable or prompt string doesn't match expected prompt."
+    
+    correct_scanf = [f'scanf("%lf",&{DOUBLE_VAR_NAME});', f'scanf("%lf", &{DOUBLE_VAR_NAME});']
+    if not any(value in contents for value in correct_scanf):
+        return False, 'Unable to find correct scanf() statement for double variable.'
+    
+    return True, ''
+
+
+def check_operations(contents):
+    # checks *=1000 and +=5000 operations
+    global LONG_VAR_NAME
+    global DOUBLE_VAR_NAME
+
+    correct_multiply = [f'{LONG_VAR_NAME}*=1000;', f'{LONG_VAR_NAME} *= 1000;']
+    if not any(value in contents for value in correct_multiply):
+        return False, f"Unable to find multiplication operation on '{LONG_VAR_NAME}'."
+
+    correct_add = [f'{DOUBLE_VAR_NAME}+=5000;', f'{DOUBLE_VAR_NAME} += 5000;']
+    if not any(value in contents for value in correct_add):
+        return False, f"Unable to find addition operation on '{DOUBLE_VAR_NAME}'."
+
+    return True, ''
+
+
+def check_print(contents):
+    # makes sure correct information is printed out
+    global LONG_VAR_NAME
+    global DOUBLE_VAR_NAME
+
+    correct_long_prints = [
+        f'printf("Large integer after multiplying by 1000: %ld\\n",{LONG_VAR_NAME});',
+        f'printf("Large integer after multiplying by 1000: %ld\\n", {LONG_VAR_NAME});'
+    ]
+    if not any(value in contents for value in correct_long_prints):
+        return False, f"Unable to find print statement showing multiplication operation on '{LONG_VAR_NAME}' or printed text doesn't match instructions."
+    
+    correct_double_prints = [
+        f'printf("Large decimal after adding 5000: %lf\\n",{DOUBLE_VAR_NAME});',
+        f'printf("Large decimal after adding 5000: %lf\\n", {DOUBLE_VAR_NAME});'
+    ]
+    if not any(value in contents for value in correct_double_prints):
+        return False, f"Unable to find print statement showing addition operation on '{DOUBLE_VAR_NAME}' or printed text doesn't match instructions."
+
+    return True, ''
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: /challenge/verify <user_file>.c')
+        sys.exit(1)
+
+    current_dir = os.getcwd()
+    filename = sys.argv[1]
+
+    passed, error_msg = check_c_file(current_dir, filename)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    filepath = os.path.join(current_dir, filename)
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_long(main_function_contents),
+        check_double(main_function_contents),
+        check_operations(main_function_contents),
+        check_print(main_function_contents)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print("Congragulations! You have passed this challenge! Here is your flag:")
+>>>>>>> main
     print_flag()

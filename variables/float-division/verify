@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
@@ -167,4 +168,175 @@ if __name__ == '__main__':
 
     print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
     print("Congragulations! You have passed this challenge! Here is your flag:")
+=======
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+from paceCParser.data_classes import Variable
+from paceCParser.parser import RED_TEXT_CODE, RESET_TEXT_CODE, GREEN_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body, compile_program, run_program
+import os
+
+
+INT_VAR1_NAME = None
+INT_VAR2_NAME = None
+FLOAT_VAR_NAME = None
+
+
+def check_c_file(current_dir, filename):
+    filepath = os.path.join(current_dir, filename)
+    if not os.path.isfile(filepath):
+        return False, "Unable to find C file named {}. Did you name it something else?".format(filename)
+
+    return True, ""
+
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library."
+
+    return True, ""
+
+
+def check_variables(contents):
+    # Should have 2 int variables and 1 float variable
+    global INT_VAR1_NAME
+    global INT_VAR2_NAME
+    global FLOAT_VAR_NAME
+
+    for stmt in contents:
+        if isinstance(stmt, Variable):
+            if stmt.data_type == 'int':
+                if INT_VAR1_NAME is None:
+                    INT_VAR1_NAME = stmt.name
+                elif INT_VAR2_NAME is None:
+                    INT_VAR2_NAME = stmt.name
+            if stmt.data_type == 'float' and FLOAT_VAR_NAME is None:
+                FLOAT_VAR_NAME = stmt.name
+
+    if INT_VAR1_NAME is None or INT_VAR2_NAME is None:
+        return False, 'Missing 2 integer variables.'
+
+    if FLOAT_VAR_NAME is None:
+        return False, 'Missing float variable.'
+
+    return True, ''
+
+
+def check_user_input(contents):
+    # verifies that a prompt is given for user input for both int variables
+    global INT_VAR1_NAME
+    global INT_VAR2_NAME
+
+    print1_statement = 'printf("Enter your first integer: ");'
+    input1_statement = f'scanf("%d", &{INT_VAR1_NAME});'
+    print2_statement = 'printf("Enter your second integer: ");'
+    input2_statement = f'scanf("%d", &{INT_VAR2_NAME});'
+    
+    if print1_statement not in contents:
+        return False, 'Missing printf() statement for first integer variable as prompt for user input or prompt text differs from instructions.'
+    if input1_statement not in contents:
+        return False, 'Missing scanf() statement for first integer variable or scanf() statement is incorrect.'
+    
+    if print2_statement not in contents:
+        return False, 'Missing printf() statement for second integer variable as prompt for user input or prompt text differs from instructions.'
+    if input2_statement not in contents:
+        return False, 'Missing scanf() statement for second integer variable or scanf() statement is incorrect.'
+
+    return True, ''
+
+
+def check_float_value(contents):
+    # Makes sure that the value assigned to the float variable is done correctly
+    global INT_VAR1_NAME
+    global INT_VAR2_NAME
+    global FLOAT_VAR_NAME
+
+    # Spaces will be removed from user when comparing with correct value so no issues with whitespace occur
+    correct_value = f'(float){INT_VAR1_NAME}/(float){INT_VAR2_NAME}'
+
+    for stmt in contents:
+        if isinstance(stmt, Variable):
+            if stmt.name == FLOAT_VAR_NAME and stmt.value is not None:
+                if stmt.value.replace(' ', '') == correct_value:
+                    return True, ''
+    
+    return False, 'Missing line where the first integer is divided by the second integer and stored in the float variable or line is incorrect.'
+
+
+def check_print_statement(contents):
+    # Makes sure that print statement is correct (int1 / int2 = float)
+    global INT_VAR1_NAME
+    global INT_VAR2_NAME
+    global FLOAT_VAR_NAME
+
+    # Find user's statement
+    user_print = None
+    base_correct_print = 'printf("%d / %d = %f\\n",'
+    for stmt in contents:
+        if isinstance(stmt, str):
+            if base_correct_print in stmt:
+                user_print = stmt
+
+    if user_print is None:
+        return False, 'Missing printf() statement for the division operation or the printf() statement is incorrect.'
+    
+    # Get everything after the end of the string to print and remove all whitespace
+    print_str, variables_list = user_print.split('",')
+    variables_list = variables_list.replace(' ', '')
+    user_print = print_str + '",' + variables_list
+
+    correct_print = f'printf("%d / %d = %f\\n",{INT_VAR1_NAME},{INT_VAR2_NAME},{FLOAT_VAR_NAME});'
+    if user_print != correct_print:
+        return False, 'Missing printf() statement for the division operation or the printf() statement is incorrect.'
+    
+    return True, ''
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: /challenge/verify <user_file>.c')
+        sys.exit(1)
+
+    current_dir = os.getcwd()
+    filename = sys.argv[1]
+
+    passed, error_msg = check_c_file(current_dir, filename)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    filepath = os.path.join(current_dir, filename)
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+    main_function = {'function_name': 'main', 'return_type': 'int', 'parameters': []}
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    verification_funcs = [
+        check_libraries(file_contents),
+        check_variables(main_function_contents),
+        check_user_input(main_function_contents),
+        check_float_value(main_function_contents),
+        check_print_statement(main_function_contents)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print("Congragulations! You have passed this challenge! Here is your flag:")
+>>>>>>> main
     print_flag()

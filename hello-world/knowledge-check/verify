@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
@@ -114,3 +115,121 @@ if __name__ == '__main__':
     print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
     print('Congratulations! You have passed this challenge! Here is your flag:')
     print_flag()
+=======
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+    try:
+        with open("/flag", "r") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+import os
+from paceCParser.parser import RED_TEXT_CODE, GREEN_TEXT_CODE, RESET_TEXT_CODE, verify_initial_checks, parse_file, retrieve_function_body, compile_program, run_program
+
+
+def check_c_file(working_dir):
+    correct_filename = 'colors.c'
+    filepath = os.path.join(working_dir, correct_filename)
+    if not os.path.isfile(filepath):
+        return False, 'Unable to find C file named `colors.c`. Did you name your file correctly from the instructions?'
+    
+    return True, ''
+
+
+def check_libraries(file_contents):
+    if '#include <stdio.h>' not in file_contents:
+        return False, "Missing 'stdio.h' library"
+
+    return True, ''
+
+
+def check_print_statements(function_contents):
+    if 'printf("Red\\nGreen\\nBlue\\n");' in function_contents:
+        return False, 'Use 3 separate `printf()` statements for the output.'
+    
+    expected_lines = {
+        'Red': 'printf("Red\\n");',
+        'Green': 'printf("Green\\n");',
+        'Blue': 'printf("Blue\\n");'
+    }
+    for color, line in expected_lines.items():
+        if line not in function_contents:
+            return False, f'Missing `printf()` statement to print "{color}" or text to print is incorrect.'
+    
+    return True, ''
+
+
+def check_executable(working_dir):
+    correct_exec_name = 'print_colors'
+    exec_path = os.path.join(working_dir, correct_exec_name)
+    if not os.path.isfile(exec_path):
+        return False, 'Unable to find executable named `print_colors`'
+
+    return True, ''
+
+
+def check_output(filepath):
+    success = compile_program(filepath)
+    program_output = run_program()
+    expected_output = 'Red\nGreen\nBlue\n'
+
+    if program_output != expected_output:
+        return False, 'Program output does not match expected output.'
+
+    return True, ''
+
+
+if __name__ == '__main__':
+    current_dir = os.getcwd()
+
+    passed, error_msg = check_c_file(current_dir)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    # C file should be colors.c, executable should be print_colors
+    filepath = os.path.join(current_dir, 'colors.c')
+    executable = os.path.join
+
+    # Compiles successfully
+    filepath = os.path.join(current_dir, 'colors.c')
+    if not verify_initial_checks(filepath):
+        sys.exit(1)
+
+    file_contents = parse_file(filepath)
+
+    # Check if stdio.h library exists
+    passed, error_msg = check_libraries(file_contents)
+    if not passed:
+        print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+        sys.exit(1)
+
+    main_function = {
+        'function_name': 'main',
+        'return_type': 'int',
+        'parameters': []
+    }
+    main_function_contents = retrieve_function_body(file_contents, **main_function)
+
+    # List of functions to run for verification process
+    verification_funcs = [
+        check_print_statements(main_function_contents),
+        check_executable(current_dir),
+        check_output(filepath)
+    ]
+
+    for func in verification_funcs:
+        passed, error_msg = func
+        if not passed:
+            print(f'{RED_TEXT_CODE}Incorrect{RESET_TEXT_CODE}: {error_msg}')
+            sys.exit(1)
+
+    print(f'{GREEN_TEXT_CODE}Correct{RESET_TEXT_CODE}')
+    print('Congratulations! You have passed this challenge! Here is your flag:')
+    print_flag()
+>>>>>>> main

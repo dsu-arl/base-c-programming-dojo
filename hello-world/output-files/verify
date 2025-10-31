@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
 import sys
 sys.path.append('/challenge')
@@ -52,4 +53,60 @@ if __name__ == '__main__':
     
     print(f'{green_text_code}Correct{reset_code}')
     print('Congratulations! You have passed this challenge! Here is your flag:')
+=======
+#!/usr/bin/exec-suid -- /usr/bin/python3.12 -I
+import sys
+sys.path.append('/challenge')
+
+def print_flag():
+	try:
+		with open("/flag", "r") as f:
+			print(f.read())
+	except FileNotFoundError:
+		print("Error: Flag file not found.")
+
+# Add your imports and other code below here
+import os
+import subprocess
+
+
+def run_program(executable):
+    run_process = subprocess.run(
+        [f'./{executable}'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+
+    if run_process.returncode != 0:
+        return False, run_process.stderr.decode()
+
+    return True, run_process.stdout.decode()
+
+
+if __name__ == '__main__':
+    red_text_code = '\033[31m'
+    green_text_code = '\033[32m'
+    reset_code = '\033[0m'
+
+    # check if specified executable file exists
+    executable_file = 'hello'
+    executable_path = os.path.join(os.getcwd(), executable_file)
+    if not os.path.exists(executable_path):
+        print(f"{red_text_code}Incorrect{reset_code}: '{executable_file}' file doesn't exist")
+        sys.exit(1)
+
+    # run executable and make sure the output is Hello World! with newline at end
+    passed, output = run_program(executable_file)
+
+    if not passed:
+        print(f"{red_text_code}Incorrect{reset_code}: {output}")
+        sys.exit(1)
+    
+    if output != 'Hello World!\n':
+        print(f"{red_text_code}Incorrect{reset_code}: Program output doesn't match expected output. Are you outputting 'Hello World' with a newline at the end?")
+        sys.exit(1)
+    
+    print(f'{green_text_code}Correct{reset_code}')
+    print('Congratulations! You have passed this challenge! Here is your flag:')
+>>>>>>> main
     print_flag()
