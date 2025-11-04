@@ -2,7 +2,7 @@ name: Hello World
 challenges:
 - id: hello-world
   name: Hello World
-  allow_privileged: false
+  allow_privileged: true
 - id: running-c-programs
   name: Running C Programs
   allow_privileged: false
