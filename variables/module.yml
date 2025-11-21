@@ -3,20 +3,20 @@ challenges:
 - id: integer-variables
   name: Integer Variables
   allow_privileged: false
-- id: all-the-math
-  name: All the Math!
+- id: user-input---integers
+  name: User Input - Integers
   allow_privileged: false
 - id: find-the-sum
   name: Find the Sum!
+  allow_privileged: false
+- id: all-the-math
+  name: All the Math!
   allow_privileged: false
 - id: data-types
   name: Data Types
   allow_privileged: false
 - id: float-division
   name: Float Division
-  allow_privileged: false
-- id: user-input---integers
-  name: User Input - Integers
   allow_privileged: false
 - id: shorthand-math
   name: Shorthand Math
