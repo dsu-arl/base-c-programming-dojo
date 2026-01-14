@@ -112,6 +112,8 @@ def check_num3(function_contents):
         "rand()%(11)+(-5)",
         "rand()%(5-(-5)+1)+(-5)",
         "rand()%(5-(-5)+1)-5",
+        "rand()%(5--5+1)+-5",
+        "rand()%(5+5+1)-5",
     ]
 
     for statement in function_contents:
