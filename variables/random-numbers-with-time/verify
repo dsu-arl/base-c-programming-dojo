@@ -64,13 +64,13 @@ def check_srand_time(contents):
 
 
 def check_num1(function_contents):
-    # makes sure there is a variable named rand_num1 with the value "rand() % (25 + 1)"
-    correct_value = "rand()%(25+1)"
+    # makes sure there is a variable named rand_num1 with the value "rand() % (25 + 1)" or "rand() % 26"
+    correct_values = ["rand()%(25+1)", "rand()%26"]
 
     for statement in function_contents:
         if isinstance(statement, Variable):
             if statement.data_type == "int" and statement.name == "rand_num1":
-                if statement.value.replace(" ", "") == correct_value:
+                if statement.value.replace(" ", "") in correct_values:
                     return True, ""
                 else:
                     return False, "'rand_num1' does not have correct value."
@@ -79,13 +79,13 @@ def check_num1(function_contents):
 
 
 def check_num2(function_contents):
-    # makes sure there is a variable named rand_num2 with the value "rand() % (1000 + 1)"
-    correct_value = "rand()%(1000+1)"
+    # makes sure there is a variable named rand_num2 with the value "rand() % (1000 + 1)" or "rand() % 1001"
+    correct_values = ["rand()%(1000+1)", "rand()%1001"]
 
     for statement in function_contents:
         if isinstance(statement, Variable):
             if statement.data_type == "int" and statement.name == "rand_num2":
-                if statement.value.replace(" ", "") == correct_value:
+                if statement.value.replace(" ", "") in correct_values:
                     return True, ""
                 else:
                     return False, "'rand_num2' does not have correct value."
