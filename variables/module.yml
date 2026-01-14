@@ -30,3 +30,6 @@ challenges:
 - id: random-number-seeds
   name: Random Number Seeds
   allow_privileged: false
+- id: random-numbers-in-a-range
+  name: Random Numbers in a Range
+  allow_privileged: false
