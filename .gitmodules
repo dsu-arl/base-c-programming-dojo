@@ -58,3 +58,6 @@
 [submodule "variables/random-numbers/paceCParser"]
 	path = variables/random-numbers/paceCParser
 	url = https://github.com/dsu-arl/paceCParser
+[submodule "variables/random-numbers-with-time/paceCParser"]
+	path = variables/random-numbers-with-time/paceCParser
+	url = https://github.com/dsu-arl/paceCParser
