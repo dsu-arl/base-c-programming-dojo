@@ -1,0 +1,12 @@
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.pylint.messages_control]
+disable = [
+    "R0801",
+    "logging-fstring-interpolation",
+    "too-few-public-methods",
+    "too-many-ancestors",
+    "missing-module-docstring",
+    "wrong-import-position",
+]
